@@ -1,0 +1,118 @@
+{
+  "nav": {
+    "about": "~/à-propos",
+    "experience": "~/expérience",
+    "skills": "~/compétences",
+    "projects": "~/projets",
+    "education": "~/formation",
+    "contact": "~/contact",
+    "download": "$ ./télécharger_cv.sh",
+    "lang": "FR"
+  },
+  "hero": {
+    "whoami": "> whoami",
+    "role_cmd": "> role --current",
+    "status": "● DISPONIBLE",
+    "status_label": "Disponible pour opportunités",
+    "terminal_title": "nisrine@portfolio:~$",
+    "terminal_lines": [
+      "> profile --load nisrine",
+      "  Ingénieure Cybersécurité Junior",
+      "  ENSIASD — Taroudannt, Maroc",
+      "",
+      "> skills --top 5",
+      "  [1] Python / Bash / PowerShell",
+      "  [2] Docker / CI-CD / IaC",
+      "  [3] Pentest / Nmap / Metasploit",
+      "  [4] SIEM / ELK / Wazuh",
+      "  [5] GNN / XAI / PyTorch",
+      "",
+      "> status --availability",
+      "  STATUS: OPEN TO WORK ✓",
+      "  LOCATION: Casablanca, Maroc"
+    ],
+    "cta_cv": "$ ./télécharger_cv.sh",
+    "cta_contact": "$ ./contact.sh"
+  },
+  "about": {
+    "cmd": "> cat about.txt",
+    "title": "À Propos",
+    "badge_label": "AUTORISÉ",
+    "bio": [
+      "Bientôt ingénieure en Cybersécurité à l'ENSIASD, je combine une expertise solide en analyse de données, détection d'intrusions et sécurité des systèmes d'information.",
+      "Mes expériences en SOC, développement sécurisé et administration de bases de données m'ont appris à allier rigueur technique et vision stratégique.",
+      "Passionnée par les défis technologiques, je participe activement à des CTF et hackathons, et je souhaite mettre cette expertise au service de l'Audit IT."
+    ],
+    "stats": ["Expériences Pro", "Projets Majeurs", "Technologies", "Certifications"]
+  },
+  "experience": {
+    "cmd": "> tail -f experience.log",
+    "title": "Expérience",
+    "joined": "JOINED",
+    "tasks": "TASK",
+    "exit": "EXIT",
+    "duration": "Durée"
+  },
+  "skills": {
+    "cmd": "> htop --skills",
+    "title": "Compétences",
+    "categories": {
+      "governance": "Gouvernance & Audit",
+      "network": "Sécurité Réseaux",
+      "offensive": "Sécurité Offensive & Défensive",
+      "dev": "Développement",
+      "devsecops": "DevSecOps",
+      "cloud": "Cloud Security",
+      "siem": "SIEM & SOC"
+    }
+  },
+  "projects": {
+    "cmd": "> ls -la ./projects/",
+    "title": "Projets",
+    "clone": "git clone",
+    "demo": "live demo --open",
+    "deps": "DEPS",
+    "featured": "FEATURED"
+  },
+  "education": {
+    "cmd": "> cat credentials.json",
+    "title": "Formation & Certifications",
+    "status_current": "EN COURS",
+    "status_done": "OBTENU",
+    "certifications": "Certifications"
+  },
+  "contact": {
+    "cmd": "> ssh nisrine@contact --port 443",
+    "title": "Contact",
+    "secure": "Connexion sécurisée établie...",
+    "name_label": "> entrer nom:",
+    "email_label": "> entrer email:",
+    "msg_label": "> entrer message:",
+    "send": "$ ./envoyer_message.sh",
+    "name_placeholder": "Votre nom",
+    "email_placeholder": "votre@email.com",
+    "msg_placeholder": "Votre message...",
+    "success": "Message transmis avec succès ✓",
+    "error": "Erreur de transmission. Réessayer.",
+    "social_title": "Liens sociaux",
+    "github": "[github]",
+    "linkedin": "[linkedin]",
+    "email_link": "[email]"
+  },
+  "footer": {
+    "copy": "© 2025 Nisrine Amesjoun",
+    "built": "Construit avec ❤️ + ☕",
+    "uptime": "UPTIME"
+  },
+  "boot": {
+    "lines": [
+      "INITIALIZING SECURE CONNECTION...........",
+      "LOADING PROFILE: NISRINE AMESJOUN........",
+      "DECRYPTING PORTFOLIO DATA................",
+      "FIREWALL STATUS: ACTIVE..................",
+      "ACCESS GRANTED ✓"
+    ],
+    "ok": "[ OK ]",
+    "skip": "SKIP »"
+  }
+}
