@@ -26,7 +26,7 @@ export default function MatrixRain() {
         y: Math.random() * canvas.height,
         speed: 0.3 + Math.random() * 0.5,
         str: generateHex(),
-        alpha: 0.03 + Math.random() * 0.03,
+        alpha: 0.02 + Math.random() * 0.02,
       }));
     }
 
@@ -48,7 +48,7 @@ export default function MatrixRain() {
       lastTime = timestamp;
 
       // Dim previous frame (trail effect)
-      ctx.fillStyle = "rgba(2, 12, 2, 0.08)";
+      ctx.fillStyle = "rgba(2, 8, 16, 0.08)";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
       ctx.font = `${FONT_SIZE}px "JetBrains Mono", monospace`;
@@ -61,7 +61,7 @@ export default function MatrixRain() {
 
         // Head character brighter
         if (drops[i] > 0) {
-          ctx.fillStyle = `rgba(0, 255, 65, ${drops[i] < 2 ? 0.55 : 0.04 + Math.random() * 0.03})`;
+          ctx.fillStyle = `rgba(0, 119, 182, ${drops[i] < 2 ? 0.18 : 0.02 + Math.random() * 0.02})`;
           ctx.fillText(char, x, y);
         }
 
@@ -75,7 +75,7 @@ export default function MatrixRain() {
       // Hex strings drifting
       ctx.font = `11px "JetBrains Mono", monospace`;
       for (const hd of hexDrops) {
-        ctx.fillStyle = `rgba(0, 212, 255, ${hd.alpha})`;
+        ctx.fillStyle = `rgba(116, 198, 157, ${hd.alpha})`;
         ctx.fillText(hd.str, hd.x, hd.y);
         hd.y += hd.speed;
         if (hd.y > canvas.height + 20) {

@@ -93,7 +93,7 @@ export default function BootScreen({ onComplete }) {
             position: "fixed",
             inset: 0,
             zIndex: 100000,
-            background: "#020c02",
+            background: "#020810",
             display: "flex",
             flexDirection: "column",
             justifyContent: "center",
@@ -104,10 +104,10 @@ export default function BootScreen({ onComplete }) {
         >
           {/* Header */}
           <div style={{ marginBottom: "40px" }}>
-            <div style={{ color: "#00FF41", fontSize: "11px", letterSpacing: "3px", marginBottom: "8px", opacity: 0.6 }}>
+            <div style={{ color: "#00B4D8", fontSize: "11px", letterSpacing: "3px", marginBottom: "8px", opacity: 0.6 }}>
               NISRINE AMESJOUN // PORTFOLIO v2.0
             </div>
-            <div style={{ color: "#4a7a4a", fontSize: "11px", letterSpacing: "2px" }}>
+            <div style={{ color: "#5C8A75", fontSize: "11px", letterSpacing: "2px" }}>
               ─────────────────────────────────────────
             </div>
           </div>
@@ -123,15 +123,15 @@ export default function BootScreen({ onComplete }) {
                 style={{ display: "flex", justifyContent: "space-between", gap: "16px" }}
               >
                 <span style={{
-                  color: l.success ? "#00FF41" : "#C8FAD6",
+                  color: l.success ? "#00B4D8" : "#CAF0F8",
                   fontSize: "clamp(12px, 1.8vw, 15px)",
                   fontWeight: l.success ? "700" : "400",
-                  textShadow: l.success ? "0 0 12px rgba(0,255,65,0.6)" : "none",
+                  textShadow: l.success ? "0 0 12px rgba(0,150,199,0.45)" : "none",
                 }}>
                   {l.text}
                 </span>
                 {l.ok && (
-                  <span style={{ color: "#00FF41", fontSize: "clamp(12px, 1.8vw, 15px)", whiteSpace: "nowrap" }}>
+                  <span style={{ color: "#2D6A4F", fontSize: "clamp(12px, 1.8vw, 15px)", whiteSpace: "nowrap" }}>
                     {OK_TAG}
                   </span>
                 )}
@@ -141,13 +141,13 @@ export default function BootScreen({ onComplete }) {
             {/* Current typing line */}
             {!done && lineIdx < BOOT_LINES.length && (
               <div style={{ display: "flex", gap: "8px" }}>
-                <span style={{ color: "#C8FAD6", fontSize: "clamp(12px, 1.8vw, 15px)" }}>
+                <span style={{ color: "#CAF0F8", fontSize: "clamp(12px, 1.8vw, 15px)" }}>
                   {typing}
                 </span>
                 <span style={{
                   display: "inline-block",
                   width: "9px", height: "16px",
-                  background: "#00FF41",
+                  background: "#00B4D8",
                   animation: "cursorBlink 1s step-end infinite",
                   verticalAlign: "bottom",
                 }} />
@@ -162,8 +162,8 @@ export default function BootScreen({ onComplete }) {
               position: "absolute",
               bottom: "40px", right: "clamp(20px, 5vw, 60px)",
               background: "transparent",
-              border: "1px solid rgba(0,255,65,0.35)",
-              color: "#4a7a4a",
+              border: "1px solid rgba(0,150,199,0.35)",
+              color: "#5C8A75",
               fontFamily: '"JetBrains Mono", monospace',
               fontSize: "12px",
               padding: "8px 18px",
@@ -171,8 +171,8 @@ export default function BootScreen({ onComplete }) {
               letterSpacing: "1px",
               transition: "all 0.2s",
             }}
-            onMouseEnter={(e) => { e.target.style.color = "#00FF41"; e.target.style.borderColor = "#00FF41"; }}
-            onMouseLeave={(e) => { e.target.style.color = "#4a7a4a"; e.target.style.borderColor = "rgba(0,255,65,0.35)"; }}
+            onMouseEnter={(e) => { e.target.style.color = "#00B4D8"; e.target.style.borderColor = "#00B4D8"; }}
+            onMouseLeave={(e) => { e.target.style.color = "#5C8A75"; e.target.style.borderColor = "rgba(0,150,199,0.35)"; }}
             aria-label="Passer l'animation d'introduction"
           >
             SKIP »
