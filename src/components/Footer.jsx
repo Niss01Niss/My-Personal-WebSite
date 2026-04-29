@@ -16,6 +16,7 @@ function formatUptime(ms) {
 
 export default function Footer() {
   const { t } = useTranslation();
+  const year = new Date().getFullYear();
   const [uptime, setUptime] = useState("—");
 
   useEffect(() => {
@@ -49,7 +50,7 @@ export default function Footer() {
           fontFamily: "var(--font-mono)", fontSize: "12px",
           color: "var(--text-muted)",
         }}>
-          {t("footer.copy")} &nbsp;|&nbsp; {t("footer.built")}
+          {t("footer.copy", { year })} &nbsp;|&nbsp; {t("footer.built")}
         </div>
 
         {/* Uptime */}

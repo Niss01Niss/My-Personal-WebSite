@@ -100,7 +100,7 @@
     "email_link": "[email]"
   },
   "footer": {
-    "copy": "© 2025 Nisrine Amesjoun",
+    "copy": "© {{year}} Nisrine Amesjoun",
     "built": "Construit avec ❤️ + ☕",
     "uptime": "UPTIME"
   },
