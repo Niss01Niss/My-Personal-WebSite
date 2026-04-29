@@ -18,11 +18,11 @@ const SKILL_LEVELS = {
 // Color per category
 // Languages → #0077B6 (accent), Tools → #1B4332 (tools), Security → #00B4D8 (primary highlight)
 const CAT_COLORS = {
-  governance: "var(--tools)",
+  governance: "var(--primary)",
   network:    "var(--primary)",
   offensive:  "var(--primary)",
   dev:        "var(--accent)",
-  devsecops:  "var(--tools)",
+  devsecops:  "var(--primary)",
   cloud:      "var(--primary)",
   siem:       "var(--primary)",
 };
@@ -40,41 +40,65 @@ const CAT_PROCESS = {
 
 function SkillBar({ name, color, active }) {
   const pct = SKILL_LEVELS[name] || 65;
-  const filled = Math.round(pct / 10);
-  const empty  = 10 - filled;
-  const barStr = "█".repeat(filled) + "░".repeat(empty);
 
   return (
     <div style={{
-      display: "flex", alignItems: "center", gap: "10px",
-      fontFamily: "var(--font-mono)", fontSize: "clamp(10px, 1.2vw, 13px)",
-      marginBottom: "10px",
+      marginBottom: "12px",
       opacity: active ? 1 : 0,
       transform: active ? "translateX(0)" : "translateX(-10px)",
       transition: "opacity 0.4s ease, transform 0.4s ease",
     }}>
-      {/* Skill name */}
-      <span style={{
-        color: "var(--text-muted)", minWidth: "160px",
-        overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap",
+      <div style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+        gap: "12px",
+        marginBottom: "6px",
       }}>
-        {name.padEnd(20, " ")}
-      </span>
+        <span style={{
+          color: "var(--text)",
+          fontFamily: "var(--font-mono)",
+          fontSize: "clamp(12px, 1.3vw, 14px)",
+          overflow: "hidden",
+          textOverflow: "ellipsis",
+          whiteSpace: "nowrap",
+          letterSpacing: "0.2px",
+        }}>
+          {name}
+        </span>
 
-      {/* Bar */}
-      <span style={{
-        color,
-        letterSpacing: "1px",
-        textShadow: active ? `0 0 8px ${color}60` : "none",
-        transition: "text-shadow 0.3s",
-      }}>
-        {barStr}
-      </span>
+        <span style={{
+          color,
+          fontFamily: "var(--font-mono)",
+          fontSize: "12px",
+          minWidth: "42px",
+          textAlign: "right",
+          fontWeight: 600,
+        }}>
+          {pct}%
+        </span>
+      </div>
 
-      {/* Percentage */}
-      <span style={{ color: "var(--text-muted)", minWidth: "36px" }}>
-        {pct}%
-      </span>
+      <div
+        style={{
+          height: "8px",
+          borderRadius: "999px",
+          background: "rgba(202, 240, 248, 0.14)",
+          border: "1px solid rgba(202, 240, 248, 0.16)",
+          overflow: "hidden",
+        }}
+      >
+        <div
+          style={{
+            width: active ? `${pct}%` : "0%",
+            height: "100%",
+            backgroundColor: color,
+            boxShadow: `0 0 10px ${color}`,
+            opacity: 0.95,
+            transition: "width 0.9s ease",
+          }}
+        />
+      </div>
     </div>
   );
 }
@@ -91,24 +115,33 @@ export default function Skills() {
 
   function Panel({ cats }) {
     return (
-      <div style={{ display: "flex", flexDirection: "column", gap: "32px" }}>
+      <div style={{ display: "flex", flexDirection: "column", gap: "22px" }}>
         {cats.map((cat) => (
-          <div key={cat.id}>
+          <div
+            key={cat.id}
+            className="term-card"
+            style={{
+              padding: "16px 16px 10px",
+              background: "rgba(7, 17, 32, 0.88)",
+              borderColor: "rgba(14, 165, 233, 0.24)",
+            }}
+          >
             {/* Category header */}
             <div style={{
               fontFamily: "var(--font-mono)",
-              fontSize: "11px",
+              fontSize: "12px",
               color: CAT_COLORS[cat.id] || "var(--primary)",
               letterSpacing: "2px",
-              marginBottom: "16px",
-              paddingBottom: "8px",
-              borderBottom: `1px solid ${(CAT_COLORS[cat.id] || "var(--primary)")}30`,
+              marginBottom: "14px",
+              paddingBottom: "10px",
+              borderBottom: `1px solid ${(CAT_COLORS[cat.id] || "var(--primary)")}40`,
               display: "flex", justifyContent: "space-between", alignItems: "center",
+              gap: "12px",
             }}>
               <span>
                 ▶ {CAT_PROCESS[cat.id] || "PROC"} :: {catNames[cat.id] || cat.title}
               </span>
-              <span style={{ color: "var(--text-dim)" }}>
+              <span style={{ color: "var(--text-muted)", whiteSpace: "nowrap" }}>
                 {cat.skills.length} tasks
               </span>
             </div>
@@ -129,25 +162,25 @@ export default function Skills() {
   }
 
   return (
-    <section id="skills" ref={ref} aria-label="Compétences" style={{ position: "relative", zIndex: 10, padding: "100px 24px" }}>
+    <section id="skills" ref={ref} aria-label="Compétences" style={{ position: "relative", zIndex: 10, padding: "var(--section-py) 24px" }}>
       <div className="container">
         {/* Section header */}
-        <div className="term-cmd" style={{ marginBottom: "16px" }}>
+        <div className="term-cmd" style={{ marginBottom: "14px" }}>
           {cmdTyped}
         </div>
 
         {/* htop-style header */}
         <div style={{
-          fontFamily: "var(--font-mono)", fontSize: "11px",
-          color: "var(--text-dim)", marginBottom: "48px",
-          borderBottom: "1px solid var(--border)", paddingBottom: "12px",
+          fontFamily: "var(--font-mono)", fontSize: "12px",
+          color: "var(--text-muted)", marginBottom: "30px",
+          borderBottom: "1px solid rgba(14, 165, 233, 0.26)", paddingBottom: "12px",
           display: "flex", gap: "24px", flexWrap: "wrap",
         }}>
           <span>PID: 1337</span>
           <span>USER: nisrine</span>
           <span>MEM: 42.0%</span>
           <span>CPU: 99.9%</span>
-          <span style={{ color: "var(--primary)" }}>STATUS: RUNNING</span>
+          <span style={{ color: "var(--primary)", fontWeight: 700 }}>STATUS: RUNNING</span>
         </div>
 
         {/* Two-panel layout */}
@@ -165,7 +198,7 @@ export default function Skills() {
 
       <style>{`
         @media (min-width: 900px) {
-          .skills-grid { grid-template-columns: 40% 58% !important; }
+          .skills-grid { grid-template-columns: 1fr 1fr !important; }
         }
       `}</style>
     </section>

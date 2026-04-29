@@ -33,7 +33,7 @@ export default function About() {
 
 
   return (
-    <section id="about" ref={ref} aria-label="À propos" style={{ position: "relative", zIndex: 10, padding: "100px 24px" }}>
+    <section id="about" ref={ref} aria-label="À propos" style={{ position: "relative", zIndex: 10, padding: "var(--section-py) 24px" }}>
       <div className="container">
         {/* Section header */}
         <div className="term-cmd" style={{ marginBottom: "64px" }}>

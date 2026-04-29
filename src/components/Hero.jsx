@@ -96,6 +96,12 @@ function TerminalWidget({ t }) {
 export default function Hero() {
   const { t } = useTranslation();
   const typedRole = useCyclingTypewriter(personal.titles, 70, 2500);
+  const scrollToSection = (sectionId) => {
+    const section = document.getElementById(sectionId);
+    if (!section) return;
+    section.scrollIntoView({ behavior: "smooth", block: "start" });
+    window.history.replaceState(null, "", window.location.pathname + window.location.search);
+  };
 
   return (
     <section
@@ -209,8 +215,9 @@ export default function Hero() {
               >
                 {t("hero.cta_cv")}
               </motion.a>
-              <motion.a
-                href="#contact"
+              <motion.button
+                type="button"
+                onClick={() => scrollToSection("contact")}
                 className="btn-terminal secondary"
                 whileHover={{ scale: 1.04 }}
                 whileTap={{ scale: 0.97 }}
@@ -218,7 +225,7 @@ export default function Hero() {
                 style={{ fontSize: "clamp(12px, 1.5vw, 14px)" }}
               >
                 {t("hero.cta_contact")}
-              </motion.a>
+              </motion.button>
             </div>
           </motion.div>
 
@@ -240,13 +247,17 @@ export default function Hero() {
           transition={{ delay: 2 }}
           style={{ marginTop: "64px", textAlign: "center" }}
         >
-          <a
-            href="#about"
+          <button
+            type="button"
+            onClick={() => scrollToSection("about")}
             aria-label="Défiler vers le bas"
             style={{
               color: "var(--text-muted)", textDecoration: "none",
               fontFamily: "var(--font-mono)", fontSize: "11px",
               letterSpacing: "2px", display: "inline-block",
+              background: "none",
+              border: "none",
+              cursor: "none",
             }}
           >
             <motion.span
@@ -257,7 +268,7 @@ export default function Hero() {
               ▼
             </motion.span>
             SCROLL
-          </a>
+          </button>
         </motion.div>
       </div>
 

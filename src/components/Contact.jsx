@@ -55,7 +55,7 @@ export default function Contact() {
   ];
 
   return (
-    <section id="contact" ref={ref} aria-label="Contact" style={{ position: "relative", zIndex: 10, padding: "100px 24px" }}>
+    <section id="contact" ref={ref} aria-label="Contact" style={{ position: "relative", zIndex: 10, padding: "var(--section-py) 24px" }}>
       <div className="container">
         {/* Section header */}
         <div className="term-cmd" style={{ marginBottom: "32px" }}>

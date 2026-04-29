@@ -5,12 +5,12 @@ import { useTranslation } from "react-i18next";
 import { personal } from "../data/portfolio";
 
 const NAV_LINKS = [
-  { key: "about",      href: "#about"      },
-  { key: "experience", href: "#experience" },
-  { key: "skills",     href: "#skills"     },
-  { key: "projects",   href: "#projects"   },
-  { key: "education",  href: "#education"  },
-  { key: "contact",    href: "#contact"    },
+  { key: "about",      sectionId: "about"      },
+  { key: "experience", sectionId: "experience" },
+  { key: "projects",   sectionId: "projects"   },
+  { key: "skills",     sectionId: "skills"     },
+  { key: "education",  sectionId: "education"  },
+  { key: "contact",    sectionId: "contact"    },
 ];
 
 export default function Navbar() {
@@ -37,6 +37,14 @@ export default function Navbar() {
     setLang(next.toUpperCase());
   }
 
+  function scrollToSection(sectionId) {
+    const target = document.getElementById(sectionId);
+    if (!target) return;
+    target.scrollIntoView({ behavior: "smooth", block: "start" });
+    window.history.replaceState(null, "", window.location.pathname + window.location.search);
+    setMenuOpen(false);
+  }
+
   const linkStyle = {
     color: "var(--text-muted)",
     textDecoration: "none",
@@ -61,11 +69,11 @@ export default function Navbar() {
           top: 0, left: 0, right: 0,
           zIndex: 1000,
           height: "var(--navbar-h)",
-          background: scrolled ? "rgba(2, 8, 16, 0.92)" : "transparent",
+          background: scrolled ? "linear-gradient(90deg, rgba(1, 18, 34, 0.94), rgba(0, 52, 98, 0.90))" : "transparent",
           backdropFilter: scrolled ? "blur(20px)" : "none",
-          borderBottom: scrolled ? "1px solid var(--accent)" : "none",
+          borderBottom: scrolled ? "1px solid #0ea5e9" : "none",
           transition: "all 0.35s ease",
-          boxShadow: scrolled ? "0 0 18px var(--accent-glow)" : "none",
+          boxShadow: scrolled ? "0 0 20px rgba(14, 165, 233, 0.30)" : "none",
         }}
       >
         <div style={{
@@ -74,45 +82,54 @@ export default function Navbar() {
           display: "flex", alignItems: "center", justifyContent: "space-between",
         }}>
           {/* Monogram logo */}
-          <motion.a
-            href="#hero"
+          <motion.button
+            type="button"
+            onClick={() => scrollToSection("hero")}
             whileHover={{ scale: 1.05 }}
             aria-label="Accueil"
-            style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: "12px" }}
+            style={{
+              textDecoration: "none",
+              display: "flex",
+              alignItems: "center",
+              gap: "12px",
+              background: "none",
+              border: "none",
+              cursor: "none",
+              padding: 0,
+            }}
           >
             <div style={{
               width: "42px", height: "42px",
-              border: "1px solid var(--accent)",
-              background: "var(--accent)",
+              border: "1px solid #0ea5e9",
+              background: "linear-gradient(135deg, #0284c7, #0369a1)",
               display: "flex", alignItems: "center", justifyContent: "center",
               fontFamily: "var(--font-display)", fontWeight: "700",
               fontSize: "14px", color: "var(--text)",
-              boxShadow: "0 0 16px var(--accent-glow)",
+              boxShadow: "0 0 18px rgba(14, 165, 233, 0.35)",
               borderRadius: "3px",
             }}>
               NA
             </div>
-            <span style={{
+            <span className="desktop-only" style={{
               fontFamily: "var(--font-mono)", fontSize: "13px",
               color: "var(--text-muted)", letterSpacing: "0.5px",
-              display: window.innerWidth > 900 ? "block" : "none",
             }}>
               nisrine@portfolio<span style={{ color: "var(--primary)" }}>:~$</span>
             </span>
-          </motion.a>
+          </motion.button>
 
           {/* Desktop nav links */}
           <div className="desktop-only" style={{ gap: "24px", alignItems: "center" }}>
             {NAV_LINKS.map((link) => (
-              <motion.a
+              <motion.button
                 key={link.key}
-                href={link.href}
-                style={linkStyle}
+                type="button"
+                style={{ ...linkStyle, background: "none", border: "none", cursor: "none" }}
                 whileHover={{ color: "var(--primary)", textShadow: "0 0 8px var(--primary-glow)" }}
-                onClick={() => setMenuOpen(false)}
+                onClick={() => scrollToSection(link.sectionId)}
               >
                 {t(`nav.${link.key}`)}
-              </motion.a>
+              </motion.button>
             ))}
           </div>
 
@@ -195,13 +212,13 @@ export default function Navbar() {
             </div>
 
             {NAV_LINKS.map((link, i) => (
-              <motion.a
+              <motion.button
                 key={link.key}
-                href={link.href}
+                type="button"
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: i * 0.07 }}
-                onClick={() => setMenuOpen(false)}
+                onClick={() => scrollToSection(link.sectionId)}
                 style={{
                   color: "var(--text)", textDecoration: "none",
                   fontSize: "clamp(24px, 5vw, 36px)",
@@ -211,11 +228,17 @@ export default function Navbar() {
                   width: "100%",
                   display: "block",
                   letterSpacing: "2px",
+                  background: "none",
+                  borderLeft: "none",
+                  borderRight: "none",
+                  borderTop: "none",
+                  textAlign: "left",
+                  cursor: "none",
                 }}
               >
                 <span style={{ color: "var(--primary)", fontSize: "14px", marginRight: "12px" }}>&gt;</span>
                 {t(`nav.${link.key}`)}
-              </motion.a>
+              </motion.button>
             ))}
 
             <div style={{ display: "flex", gap: "16px", marginTop: "40px", flexWrap: "wrap" }}>

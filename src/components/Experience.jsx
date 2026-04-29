@@ -105,7 +105,7 @@ export default function Experience() {
   const cmdTyped = useTypewriter(t("experience.cmd"), 40, isVisible);
 
   return (
-    <section id="experience" ref={ref} aria-label="Expérience professionnelle" style={{ position: "relative", zIndex: 10, padding: "100px 24px" }}>
+    <section id="experience" ref={ref} aria-label="Expérience professionnelle" style={{ position: "relative", zIndex: 10, padding: "var(--section-py) 24px" }}>
       <div className="container">
         {/* Section header */}
         <div className="term-cmd" style={{ marginBottom: "64px" }}>

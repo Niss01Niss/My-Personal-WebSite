@@ -148,7 +148,7 @@ export default function Projects() {
   const cmdTyped = useTypewriter(t("projects.cmd"), 40, isVisible);
 
   return (
-    <section id="projects" ref={ref} aria-label="Projets" style={{ position: "relative", zIndex: 10, padding: "100px 24px" }}>
+    <section id="projects" ref={ref} aria-label="Projets" style={{ position: "relative", zIndex: 10, padding: "var(--section-py) 24px" }}>
       <div className="container">
         {/* Section header */}
         <div className="term-cmd" style={{ marginBottom: "64px" }}>

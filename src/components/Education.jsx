@@ -102,7 +102,7 @@ export default function Education() {
   const cmdTyped = useTypewriter(t("education.cmd"), 40, isVisible);
 
   return (
-    <section id="education" ref={ref} aria-label="Formation et certifications" style={{ position: "relative", zIndex: 10, padding: "100px 24px" }}>
+    <section id="education" ref={ref} aria-label="Formation et certifications" style={{ position: "relative", zIndex: 10, padding: "var(--section-py) 24px" }}>
       <div className="container">
         {/* Section header */}
         <div className="term-cmd" style={{ marginBottom: "64px" }}>
