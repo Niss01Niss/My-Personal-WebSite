@@ -63,19 +63,18 @@ export default function About() {
               <div style={{
                 width: "200px", height: "200px",
                 clipPath: "polygon(50% 0%, 95% 25%, 95% 75%, 50% 100%, 5% 75%, 5% 25%)",
-                background: "var(--bg-card)",
-                border: "2px solid var(--primary)",
+                background: "var(--accent)",
+                border: "2px solid var(--accent)",
                 display: "flex", alignItems: "center", justifyContent: "center",
                 position: "relative",
                 overflow: "hidden",
-                boxShadow: "0 0 30px var(--primary-glow), inset 0 0 30px rgba(0,255,65,0.05)",
+                boxShadow: "0 0 24px var(--accent-glow)",
               }}>
                 {/* Initials */}
                 <div style={{
                   fontFamily: "var(--font-display)",
-                  fontSize: "52px", fontWeight: "900",
-                  color: "var(--primary)",
-                  textShadow: "0 0 20px var(--primary-glow)",
+                  fontSize: "52px", fontWeight: "700",
+                  color: "var(--text)",
                   zIndex: 2,
                 }}>
                   NA
@@ -85,7 +84,7 @@ export default function About() {
                   position: "absolute",
                   bottom: "28px",
                   fontFamily: "var(--font-mono)", fontSize: "8px",
-                  color: "rgba(0,255,65,0.4)", letterSpacing: "4px",
+                  color: "rgba(202, 240, 248, 0.4)", letterSpacing: "4px",
                   textTransform: "uppercase", transform: "rotate(-15deg)",
                   userSelect: "none",
                 }}>
@@ -94,7 +93,7 @@ export default function About() {
                 {/* Scan line effect */}
                 <div style={{
                   position: "absolute", inset: 0,
-                  background: "repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,255,65,0.02) 3px, rgba(0,255,65,0.02) 4px)",
+                  background: "repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(202, 240, 248, 0.04) 3px, rgba(202, 240, 248, 0.04) 4px)",
                   pointerEvents: "none",
                 }} />
               </div>
@@ -105,7 +104,7 @@ export default function About() {
               <div style={{ fontFamily: "var(--font-mono)", fontSize: "11px", lineHeight: "2" }}>
                 <div><span style={{ color: "var(--text-muted)" }}>ID:</span> <span style={{ color: "var(--primary)" }}>NA-SEC-001</span></div>
                 <div><span style={{ color: "var(--text-muted)" }}>LOC:</span> <span style={{ color: "var(--text)" }}>Casablanca, Maroc</span></div>
-                <div><span style={{ color: "var(--text-muted)" }}>STATUS:</span> <span style={{ color: "var(--primary)" }}>● ACTIVE</span></div>
+                <div><span style={{ color: "var(--text-muted)" }}>STATUS:</span> <span style={{ color: "var(--success)" }}>● ACTIVE</span></div>
                 <div><span style={{ color: "var(--text-muted)" }}>CLEARANCE:</span> <span style={{ color: "var(--secondary)" }}>LEVEL 5</span></div>
               </div>
             </div>
@@ -127,7 +126,6 @@ export default function About() {
                   <div style={{
                     fontFamily: "var(--font-display)", fontSize: "24px",
                     color: "var(--primary)", fontWeight: "700",
-                    textShadow: "0 0 12px var(--primary-glow)",
                   }}>
                     {stat.value}
                   </div>

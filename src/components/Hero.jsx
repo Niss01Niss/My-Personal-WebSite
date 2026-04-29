@@ -134,7 +134,7 @@ export default function Hero() {
             }}>
               <span style={{
                 width: "8px", height: "8px", borderRadius: "50%",
-                background: "var(--primary)",
+                background: "var(--success)",
                 animation: "pulseGreen 2s ease-in-out infinite",
                 display: "inline-block",
               }} />
@@ -155,10 +155,10 @@ export default function Hero() {
               style={{
                 fontFamily: "var(--font-display)",
                 fontSize: "clamp(48px, 8vw, 110px)",
-                fontWeight: "900",
+                fontWeight: "700",
                 lineHeight: "0.95",
                 color: "var(--primary)",
-                textShadow: "0 0 30px rgba(0,255,65,0.35), 0 0 60px rgba(0,255,65,0.12)",
+                textShadow: "0 0 24px rgba(0, 150, 199, 0.20)",
                 marginBottom: "32px",
                 letterSpacing: "-1px",
                 wordBreak: "break-word",

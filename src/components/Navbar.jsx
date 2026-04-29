@@ -61,11 +61,11 @@ export default function Navbar() {
           top: 0, left: 0, right: 0,
           zIndex: 1000,
           height: "var(--navbar-h)",
-          background: scrolled ? "rgba(2, 12, 2, 0.92)" : "transparent",
+          background: scrolled ? "rgba(2, 8, 16, 0.92)" : "transparent",
           backdropFilter: scrolled ? "blur(20px)" : "none",
-          borderBottom: scrolled ? "1px solid var(--border)" : "none",
+          borderBottom: scrolled ? "1px solid var(--accent)" : "none",
           transition: "all 0.35s ease",
-          boxShadow: scrolled ? "0 0 24px rgba(0,255,65,0.06)" : "none",
+          boxShadow: scrolled ? "0 0 18px var(--accent-glow)" : "none",
         }}
       >
         <div style={{
@@ -82,14 +82,13 @@ export default function Navbar() {
           >
             <div style={{
               width: "42px", height: "42px",
-              border: "1px solid var(--border-bright)",
-              background: "var(--primary-dim)",
+              border: "1px solid var(--accent)",
+              background: "var(--accent)",
               display: "flex", alignItems: "center", justifyContent: "center",
               fontFamily: "var(--font-display)", fontWeight: "700",
-              fontSize: "14px", color: "var(--primary)",
-              boxShadow: "0 0 16px var(--primary-dim)",
+              fontSize: "14px", color: "var(--text)",
+              boxShadow: "0 0 16px var(--accent-glow)",
               borderRadius: "3px",
-              animation: "borderGlow 4s ease-in-out infinite",
             }}>
               NA
             </div>
@@ -125,15 +124,15 @@ export default function Navbar() {
               aria-label={`Changer la langue en ${lang === "FR" ? "Anglais" : "Français"}`}
               style={{
                 fontFamily: "var(--font-mono)", fontSize: "12px",
-                border: "1px solid var(--border)",
+                border: "1px solid var(--accent)",
                 background: "transparent",
                 color: "var(--text-muted)",
                 padding: "6px 12px", cursor: "none",
                 borderRadius: "3px", letterSpacing: "1px",
                 transition: "all 0.2s",
               }}
-              onMouseEnter={(e) => { e.target.style.color = "var(--secondary)"; e.target.style.borderColor = "var(--secondary)"; }}
-              onMouseLeave={(e) => { e.target.style.color = "var(--text-muted)"; e.target.style.borderColor = "var(--border)"; }}
+              onMouseEnter={(e) => { e.target.style.color = "var(--primary)"; e.target.style.borderColor = "var(--primary)"; }}
+              onMouseLeave={(e) => { e.target.style.color = "var(--text-muted)"; e.target.style.borderColor = "var(--accent)"; }}
             >
               [ {lang === "FR" ? "FR" : "EN"} | {lang === "FR" ? "EN" : "FR"} ]
             </button>
@@ -179,7 +178,7 @@ export default function Navbar() {
             transition={{ duration: 0.35, ease: "easeInOut" }}
             style={{
               position: "fixed", inset: 0,
-              background: "rgba(2, 12, 2, 0.97)",
+              background: "rgba(2, 8, 16, 0.97)",
               zIndex: 999,
               display: "flex", flexDirection: "column",
               justifyContent: "center", alignItems: "flex-start",

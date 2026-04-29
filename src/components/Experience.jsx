@@ -1,5 +1,5 @@
 // src/components/Experience.jsx — Log-file aesthetic
-import { useRef } from "react";
+
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
 import { experiences } from "../data/portfolio";
@@ -9,8 +9,6 @@ import { useTypewriter } from "../hooks/useTypewriter";
 function LogEntry({ exp, index, t }) {
   const [ref, isVisible] = useIntersectionObserver(0.1);
 
-  // Determine date string for left column
-  const startYear = exp.period.split("—")[0]?.trim().split(" ").pop() || "----";
 
   return (
     <motion.div
@@ -26,7 +24,7 @@ function LogEntry({ exp, index, t }) {
         display: "flex", flexWrap: "wrap", gap: "12px",
         alignItems: "center",
         padding: "10px 16px",
-        background: "rgba(0,255,65,0.04)",
+        background: "rgba(0, 119, 182, 0.04)",
         border: "1px solid var(--border)",
         borderBottom: "none",
         fontFamily: "var(--font-mono)", fontSize: "clamp(10px, 1.3vw, 12px)",

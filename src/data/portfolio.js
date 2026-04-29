@@ -52,7 +52,7 @@ export const experiences = [
       "Déploiement containerisé avec Docker pour une mise en production scalable",
     ],
     tech: ["Python", "Scikit-learn", "PyTorch", "TensorFlow", "GNN", "Docker", "SOAR", "XAI"],
-    color: "#C9A84C",
+    color: "#00B4D8",
   },
   {
     id: 2,
@@ -71,7 +71,7 @@ export const experiences = [
       "Automatisation des workflows de sécurité avec n8n et Supabase",
     ],
     tech: ["n8n", "Supabase", "Raspberry Pi", "MFA", "SMTP", "Threat Intelligence"],
-    color: "#4C8FC9",
+    color: "#0077B6",
   },
   {
     id: 3,
@@ -90,7 +90,7 @@ export const experiences = [
       "Tests d'API avec Postman et intégration Node.js",
     ],
     tech: ["Laravel", "Livewire", "React", "Node.js", "Postman", "Swagger", "OpenAPI"],
-    color: "#4CC9A8",
+    color: "#74C69D",
   },
   {
     id: 4,
@@ -109,7 +109,7 @@ export const experiences = [
       "Implémentation d'interfaces Bootstrap responsives",
     ],
     tech: ["PHP", "Laravel", "Livewire", "MySQL", "PostgreSQL", "Bootstrap", "Git"],
-    color: "#A84CC9",
+    color: "#1B4332",
   },
 ];
 
@@ -256,14 +256,14 @@ export const certifications = [
     title: "CISCO Ethical Hacking",
     issuer: "Cisco Networking Academy",
     icon: "🔐",
-    color: "#C9A84C",
+    color: "#00B4D8",
   },
   {
     id: 2,
     title: "Introduction to Cybersecurity",
     issuer: "Cisco Networking Academy",
     icon: "🛡️",
-    color: "#4C8FC9",
+    color: "#0077B6",
   },
   {
     id: 3,
@@ -271,7 +271,7 @@ export const certifications = [
     issuer: "Cisco Networking Academy",
     note: "Formation suivie",
     icon: "🌐",
-    color: "#4CC9A8",
+    color: "#74C69D",
   },
 ];
 

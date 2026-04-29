@@ -1,5 +1,4 @@
 // src/components/Skills.jsx — System monitor / htop style
-import { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { skillCategories } from "../data/portfolio";
 import { useIntersectionObserver } from "../hooks/useIntersectionObserver";
@@ -17,13 +16,14 @@ const SKILL_LEVELS = {
 };
 
 // Color per category
+// Languages → #0077B6 (accent), Tools → #1B4332 (tools), Security → #00B4D8 (primary highlight)
 const CAT_COLORS = {
-  governance: "var(--secondary)",
+  governance: "var(--tools)",
   network:    "var(--primary)",
-  offensive:  "var(--danger)",
-  dev:        "var(--primary)",
-  devsecops:  "var(--secondary)",
-  cloud:      "#00D4FF",
+  offensive:  "var(--primary)",
+  dev:        "var(--accent)",
+  devsecops:  "var(--tools)",
+  cloud:      "var(--primary)",
   siem:       "var(--primary)",
 };
 
@@ -89,10 +89,10 @@ export default function Skills() {
   const left  = skillCategories.slice(0, Math.ceil(skillCategories.length / 2));
   const right = skillCategories.slice(Math.ceil(skillCategories.length / 2));
 
-  function Panel({ cats, delay }) {
+  function Panel({ cats }) {
     return (
       <div style={{ display: "flex", flexDirection: "column", gap: "32px" }}>
-        {cats.map((cat, ci) => (
+        {cats.map((cat) => (
           <div key={cat.id}>
             {/* Category header */}
             <div style={{
@@ -114,7 +114,7 @@ export default function Skills() {
             </div>
 
             {/* Skills */}
-            {cat.skills.map((skill, si) => (
+            {cat.skills.map((skill) => (
               <SkillBar
                 key={skill}
                 name={skill}
@@ -158,8 +158,8 @@ export default function Skills() {
         }}
         className="skills-grid"
         >
-          <Panel cats={left} delay={0} />
-          <Panel cats={right} delay={200} />
+          <Panel cats={left} />
+          <Panel cats={right} />
         </div>
       </div>
 

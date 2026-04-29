@@ -32,7 +32,7 @@ export default function Footer() {
         position: "relative", zIndex: 10,
         borderTop: "1px solid var(--border)",
         padding: "20px 24px",
-        background: "rgba(2, 12, 2, 0.8)",
+        background: "rgba(2, 8, 16, 0.8)",
         backdropFilter: "blur(10px)",
       }}
     >
@@ -57,7 +57,7 @@ export default function Footer() {
         }}>
           <span style={{
             width: "6px", height: "6px", borderRadius: "50%",
-            background: "var(--primary)", display: "inline-block",
+            background: "var(--success)", display: "inline-block",
             animation: "pulseGreen 2s ease-in-out infinite",
           }} />
           {t("footer.uptime")}: <span style={{ color: "var(--primary)" }}>{uptime}</span>
