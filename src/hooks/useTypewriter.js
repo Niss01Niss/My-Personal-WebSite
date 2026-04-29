@@ -7,42 +7,36 @@ import { useState, useEffect, useRef } from "react";
  */
 export function useTypewriter(text = "", speed = 40, active = true, startDelay = 0) {
   const [displayed, setDisplayed] = useState("");
-  const timerRef   = useRef(null);
-  const delayRef   = useRef(null);
-  const indexRef   = useRef(0);
-  const activeRef  = useRef(active);
-  const textRef    = useRef(text);
-
-  // Keep refs in sync
-  activeRef.current = active;
-  textRef.current   = text;
+  const timerRef = useRef(null);
+  const delayRef = useRef(null);
 
   useEffect(() => {
-    if (!activeRef.current) return;
+    if (!active) return;
 
-    setDisplayed("");
-    indexRef.current = 0;
     clearTimeout(timerRef.current);
     clearTimeout(delayRef.current);
 
+    let index = 0;
+
     const tick = () => {
-      if (!activeRef.current) return;
-      indexRef.current += 1;
-      setDisplayed(textRef.current.slice(0, indexRef.current));
-      if (indexRef.current < textRef.current.length) {
+      index += 1;
+      setDisplayed(text.slice(0, index));
+      if (index < text.length) {
         timerRef.current = setTimeout(tick, speed);
       }
     };
 
-    delayRef.current = setTimeout(tick, startDelay || speed);
+    const initialDelay = startDelay > 0 ? startDelay : speed;
+    delayRef.current = setTimeout(() => {
+      setDisplayed("");
+      tick();
+    }, initialDelay);
 
     return () => {
       clearTimeout(timerRef.current);
       clearTimeout(delayRef.current);
     };
-  // We intentionally only re-run when text or active changes
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [text, active]);
+  }, [text, active, speed, startDelay]);
 
   return displayed;
 }

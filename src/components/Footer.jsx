@@ -16,13 +16,16 @@ function formatUptime(ms) {
 
 export default function Footer() {
   const { t } = useTranslation();
-  const [uptime, setUptime] = useState(formatUptime(Date.now() - START_TIME));
+  const [uptime, setUptime] = useState("—");
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setUptime(formatUptime(Date.now() - START_TIME));
-    }, 1000);
-    return () => clearInterval(interval);
+    const tick = () => setUptime(formatUptime(Date.now() - START_TIME));
+    const first = window.setTimeout(() => tick(), 0);
+    const interval = setInterval(tick, 1000);
+    return () => {
+      window.clearTimeout(first);
+      clearInterval(interval);
+    };
   }, []);
 
   return (

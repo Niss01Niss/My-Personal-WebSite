@@ -17,9 +17,11 @@ import Footer        from "./components/Footer";
 export default function App() {
   const [booted, setBooted] = useState(false);
 
-  // Pre-check session so boot screen doesn't flash
+  // Pre-check session so boot screen doesn't flash (defer setState to satisfy react-hooks/set-state-in-effect)
   useEffect(() => {
-    if (sessionStorage.getItem("boot-shown")) setBooted(true);
+    if (!sessionStorage.getItem("boot-shown")) return;
+    const id = window.setTimeout(() => setBooted(true), 0);
+    return () => window.clearTimeout(id);
   }, []);
 
   return (

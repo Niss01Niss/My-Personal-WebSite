@@ -38,6 +38,52 @@ const CAT_PROCESS = {
   siem:       "SOC_PROC",
 };
 
+function SkillsPanel({ cats, isVisible, catNames }) {
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: "22px" }}>
+      {cats.map((cat) => (
+        <div
+          key={cat.id}
+          className="term-card"
+          style={{
+            padding: "16px 16px 10px",
+            background: "rgba(7, 17, 32, 0.88)",
+            borderColor: "rgba(14, 165, 233, 0.24)",
+          }}
+        >
+          <div style={{
+            fontFamily: "var(--font-mono)",
+            fontSize: "12px",
+            color: CAT_COLORS[cat.id] || "var(--primary)",
+            letterSpacing: "2px",
+            marginBottom: "14px",
+            paddingBottom: "10px",
+            borderBottom: `1px solid ${(CAT_COLORS[cat.id] || "var(--primary)")}40`,
+            display: "flex", justifyContent: "space-between", alignItems: "center",
+            gap: "12px",
+          }}>
+            <span>
+              ▶ {CAT_PROCESS[cat.id] || "PROC"} :: {catNames[cat.id] || cat.title}
+            </span>
+            <span style={{ color: "var(--text-muted)", whiteSpace: "nowrap" }}>
+              {cat.skills.length} tasks
+            </span>
+          </div>
+
+          {cat.skills.map((skill) => (
+            <SkillBar
+              key={skill}
+              name={skill}
+              color={CAT_COLORS[cat.id] || "var(--primary)"}
+              active={isVisible}
+            />
+          ))}
+        </div>
+      ))}
+    </div>
+  );
+}
+
 function SkillBar({ name, color, active }) {
   const pct = SKILL_LEVELS[name] || 65;
 
@@ -113,54 +159,6 @@ export default function Skills() {
   const left  = skillCategories.slice(0, Math.ceil(skillCategories.length / 2));
   const right = skillCategories.slice(Math.ceil(skillCategories.length / 2));
 
-  function Panel({ cats }) {
-    return (
-      <div style={{ display: "flex", flexDirection: "column", gap: "22px" }}>
-        {cats.map((cat) => (
-          <div
-            key={cat.id}
-            className="term-card"
-            style={{
-              padding: "16px 16px 10px",
-              background: "rgba(7, 17, 32, 0.88)",
-              borderColor: "rgba(14, 165, 233, 0.24)",
-            }}
-          >
-            {/* Category header */}
-            <div style={{
-              fontFamily: "var(--font-mono)",
-              fontSize: "12px",
-              color: CAT_COLORS[cat.id] || "var(--primary)",
-              letterSpacing: "2px",
-              marginBottom: "14px",
-              paddingBottom: "10px",
-              borderBottom: `1px solid ${(CAT_COLORS[cat.id] || "var(--primary)")}40`,
-              display: "flex", justifyContent: "space-between", alignItems: "center",
-              gap: "12px",
-            }}>
-              <span>
-                ▶ {CAT_PROCESS[cat.id] || "PROC"} :: {catNames[cat.id] || cat.title}
-              </span>
-              <span style={{ color: "var(--text-muted)", whiteSpace: "nowrap" }}>
-                {cat.skills.length} tasks
-              </span>
-            </div>
-
-            {/* Skills */}
-            {cat.skills.map((skill) => (
-              <SkillBar
-                key={skill}
-                name={skill}
-                color={CAT_COLORS[cat.id] || "var(--primary)"}
-                active={isVisible}
-              />
-            ))}
-          </div>
-        ))}
-      </div>
-    );
-  }
-
   return (
     <section id="skills" ref={ref} aria-label="Compétences" style={{ position: "relative", zIndex: 10, padding: "var(--section-py) 24px" }}>
       <div className="container">
@@ -191,8 +189,8 @@ export default function Skills() {
         }}
         className="skills-grid"
         >
-          <Panel cats={left} />
-          <Panel cats={right} />
+          <SkillsPanel cats={left} isVisible={isVisible} catNames={catNames} />
+          <SkillsPanel cats={right} isVisible={isVisible} catNames={catNames} />
         </div>
       </div>
 

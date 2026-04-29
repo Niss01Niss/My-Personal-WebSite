@@ -12,6 +12,10 @@ const BOOT_LINES = [
 ];
 const OK_TAG = "[ OK ]";
 
+function isLastBootLine(idx) {
+  return idx === BOOT_LINES.length - 1;
+}
+
 export default function BootScreen({ onComplete }) {
   const [lines, setLines]       = useState([]); // { text, ok }
   const [typing, setTyping]     = useState("");
@@ -33,16 +37,18 @@ export default function BootScreen({ onComplete }) {
   useEffect(() => {
     if (sessionStorage.getItem("boot-shown")) return;
     if (lineIdx >= BOOT_LINES.length) {
-      // All lines done — wait then slide up
-      timerRef.current = setTimeout(() => {
+      const doneId = window.setTimeout(() => setDone(true), 0);
+      const slideId = window.setTimeout(() => {
         setSliding(true);
         setTimeout(() => {
           sessionStorage.setItem("boot-shown", "1");
           onComplete();
         }, 700);
       }, 800);
-      setDone(true);
-      return;
+      return () => {
+        window.clearTimeout(doneId);
+        window.clearTimeout(slideId);
+      };
     }
 
     const line = BOOT_LINES[lineIdx];
@@ -62,14 +68,12 @@ export default function BootScreen({ onComplete }) {
         setTyping("");
         setCharIdx(0);
         setLineIdx((i) => i + 1);
-      }, isLastLine(lineIdx) ? 200 : 120);
+      }, isLastBootLine(lineIdx) ? 200 : 120);
     }
 
     return () => clearTimeout(timerRef.current);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [charIdx, lineIdx]);
-
-  function isLastLine(idx) { return idx === BOOT_LINES.length - 1; }
 
   function handleSkip() {
     clearTimeout(timerRef.current);

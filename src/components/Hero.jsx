@@ -20,10 +20,13 @@ function TerminalWidget({ t }) {
 
   useEffect(() => {
     linesRef.current = lines;
-    setVisibleLines([]);
-    setCurrentLine(0);
-    setCurrentText("");
-    setCharIdx(0);
+    const id = window.setTimeout(() => {
+      setVisibleLines([]);
+      setCurrentLine(0);
+      setCurrentText("");
+      setCharIdx(0);
+    }, 0);
+    return () => window.clearTimeout(id);
   }, [lines]);
 
   useEffect(() => {
