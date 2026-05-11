@@ -3,10 +3,11 @@
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
 import { experiences } from "../data/portfolio";
+import { resolveLang, tx } from "../utils/l10n";
 import { useIntersectionObserver } from "../hooks/useIntersectionObserver";
 import { useTypewriter } from "../hooks/useTypewriter";
 
-function LogEntry({ exp, index, t }) {
+function LogEntry({ exp, index, t, lang }) {
   const [ref, isVisible] = useIntersectionObserver(0.1);
 
 
@@ -29,12 +30,12 @@ function LogEntry({ exp, index, t }) {
         borderBottom: "none",
         fontFamily: "var(--font-mono)", fontSize: "clamp(10px, 1.3vw, 12px)",
       }}>
-        <span style={{ color: "var(--text-muted)" }}>[{exp.period}]</span>
+        <span style={{ color: "var(--text-muted)" }}>[{tx(exp.period, lang)}]</span>
         <span style={{ color: "var(--primary)" }}>[INFO]</span>
         <span style={{ color: "var(--secondary)" }}>{t("experience.joined")}:</span>
         <span style={{ color: "var(--text)", fontWeight: "600" }}>{exp.company}</span>
         <span style={{ color: "var(--text-muted)" }}>—</span>
-        <span style={{ color: "var(--text)" }}>{exp.role}</span>
+        <span style={{ color: "var(--text)" }}>{tx(exp.role, lang)}</span>
         <span style={{
           marginLeft: "auto",
           padding: "2px 10px",
@@ -42,7 +43,7 @@ function LogEntry({ exp, index, t }) {
           color: exp.color,
           fontSize: "10px", borderRadius: "3px",
         }}>
-          {exp.type}
+          {tx(exp.type, lang)}
         </span>
       </div>
 
@@ -55,7 +56,7 @@ function LogEntry({ exp, index, t }) {
           paddingLeft: "12px",
           borderLeft: `2px solid ${exp.color}60`,
         }}>
-          {exp.description}
+          {tx(exp.description, lang)}
         </div>
 
         {/* Tasks */}
@@ -66,7 +67,7 @@ function LogEntry({ exp, index, t }) {
               fontFamily: "var(--font-mono)", fontSize: "clamp(11px, 1.3vw, 13px)",
             }}>
               <span style={{ color: "var(--secondary)", flexShrink: 0 }}>[{t("experience.tasks")}]</span>
-              <span style={{ color: "var(--text)" }}>{b}</span>
+              <span style={{ color: "var(--text)" }}>{tx(b, lang)}</span>
             </div>
           ))}
         </div>
@@ -92,7 +93,7 @@ function LogEntry({ exp, index, t }) {
           fontFamily: "var(--font-mono)", fontSize: "11px",
           color: "var(--text-dim)",
         }}>
-          [{t("experience.exit")}] {t("experience.duration")}: {exp.duration} — {exp.location}
+          [{t("experience.exit")}] {t("experience.duration")}: {tx(exp.duration, lang)} — {tx(exp.location, lang)}
         </div>
       </div>
     </motion.div>
@@ -100,12 +101,13 @@ function LogEntry({ exp, index, t }) {
 }
 
 export default function Experience() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const lang = resolveLang(i18n);
   const [ref, isVisible] = useIntersectionObserver(0.1);
   const cmdTyped = useTypewriter(t("experience.cmd"), 40, isVisible);
 
   return (
-    <section id="experience" ref={ref} aria-label="Expérience professionnelle" style={{ position: "relative", zIndex: 10, padding: "var(--section-py) 24px" }}>
+    <section id="experience" ref={ref} aria-label={t("experience.title")} style={{ position: "relative", zIndex: 10, padding: "100px 24px" }}>
       <div className="container">
         {/* Section header */}
         <div className="term-cmd" style={{ marginBottom: "64px" }}>
@@ -115,7 +117,7 @@ export default function Experience() {
         {/* Log entries */}
         <div>
           {experiences.map((exp, i) => (
-            <LogEntry key={exp.id} exp={exp} index={i} t={t} />
+            <LogEntry key={exp.id} exp={exp} index={i} t={t} lang={lang} />
           ))}
         </div>
       </div>

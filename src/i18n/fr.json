@@ -32,7 +32,12 @@
       "  LOCATION: Casablanca, Maroc"
     ],
     "cta_cv": "$ ./télécharger_cv.sh",
-    "cta_contact": "$ ./contact.sh"
+    "cta_contact": "$ ./contact.sh",
+    "scroll": "SCROLL",
+    "scroll_aria": "Faire défiler vers la section suivante",
+    "aria_download_cv": "Télécharger le CV",
+    "aria_contact": "Aller au contact",
+    "section_aria": "Introduction"
   },
   "about": {
     "cmd": "> cat about.txt",
@@ -43,7 +48,8 @@
       "Mes expériences en SOC, développement sécurisé et administration de bases de données m'ont appris à allier rigueur technique et vision stratégique.",
       "Passionnée par les défis technologiques, je participe activement à des CTF et hackathons, et je souhaite mettre cette expertise au service de l'Audit IT."
     ],
-    "stats": ["Expériences Pro", "Projets Majeurs", "Technologies", "Certifications"]
+    "stats": ["Expériences Pro", "Projets Majeurs", "Technologies", "Certifications"],
+    "interests_cmd": "interests --list"
   },
   "experience": {
     "cmd": "> tail -f experience.log",
@@ -64,7 +70,8 @@
       "devsecops": "DevSecOps",
       "cloud": "Cloud Security",
       "siem": "SIEM & SOC"
-    }
+    },
+    "tasks_suffix": "tâches"
   },
   "projects": {
     "cmd": "> ls -la ./projects/",
@@ -72,14 +79,20 @@
     "clone": "git clone",
     "demo": "live demo --open",
     "deps": "DEPS",
-    "featured": "FEATURED"
+    "featured": "FEATURED",
+    "private_repo": "[DÉPÔT PRIVÉ]",
+    "dir_listing": "total {{count}}    drwxr-xr-x nisrine staff    ./projects/",
+    "aria_source": "Code source : {{name}}",
+    "aria_demo": "Démo : {{name}}"
   },
   "education": {
     "cmd": "> cat credentials.json",
     "title": "Formation & Certifications",
     "status_current": "EN COURS",
     "status_done": "OBTENU",
-    "certifications": "Certifications"
+    "certifications": "Certifications",
+    "records_heading": "// DOSSIERS FORMATION",
+    "language_heading": "// NIVEAUX LANGUES"
   },
   "contact": {
     "cmd": "> ssh nisrine@contact --port 443",
@@ -92,8 +105,9 @@
     "name_placeholder": "Votre nom",
     "email_placeholder": "votre@email.com",
     "msg_placeholder": "Votre message...",
-    "success": "Message transmis avec succès ✓",
+    "success": "Message envoyé avec succès ✓",
     "error": "Erreur de transmission. Réessayer.",
+    "error_not_configured": "Ajoutez VITE_WEB3FORMS_ACCESS_KEY (gratuit sur web3forms.com) ou VITE_FORMSPREE_ID dans portfolio/.env puis relancez npm run build. Sur l’hébergeur, ajoutez la même variable d’environnement.",
     "social_title": "Liens sociaux",
     "github": "[github]",
     "linkedin": "[linkedin]",
@@ -105,14 +119,17 @@
     "uptime": "UPTIME"
   },
   "boot": {
+    "header_title": "NISRINE AMESJOUN // PORTFOLIO v2.0",
+    "header_rule": "─────────────────────────────────────────",
+    "skip_aria": "Passer l'animation d'introduction",
     "lines": [
-      "INITIALIZING SECURE CONNECTION...........",
-      "LOADING PROFILE: NISRINE AMESJOUN........",
-      "DECRYPTING PORTFOLIO DATA................",
-      "FIREWALL STATUS: ACTIVE..................",
-      "ACCESS GRANTED ✓"
+      "INITIALISATION CONNEXION SÉCURISÉE.......",
+      "CHARGEMENT PROFIL : NISRINE AMESJOUN.....",
+      "DÉCHIFFREMENT DONNÉES PORTFOLIO.........",
+      "PARE-FEU : ACTIF.........................",
+      "ACCÈS AUTORISÉ ✓"
     ],
     "ok": "[ OK ]",
-    "skip": "SKIP »"
+    "skip": "PASSER »"
   }
 }

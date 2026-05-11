@@ -3,6 +3,7 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
 import { personal } from "../data/portfolio";
+import { resolveLang, tx } from "../utils/l10n";
 import { useIntersectionObserver } from "../hooks/useIntersectionObserver";
 import { useTypewriter } from "../hooks/useTypewriter";
 
@@ -24,16 +25,23 @@ function BioLine({ text, delay, active }) {
 
 export default function About() {
   const { t, i18n } = useTranslation();
+  const lang = resolveLang(i18n);
   const [ref, isVisible] = useIntersectionObserver(0.15);
   const cmdTyped = useTypewriter(t("about.cmd"), 40, isVisible);
-  // Stabilize array refs with useMemo keyed on language
-  const lang = i18n.language;
-  const bioLines    = useMemo(() => t("about.bio",   { returnObjects: true }), [lang]); // eslint-disable-line
-  const statsLabels = useMemo(() => t("about.stats", { returnObjects: true }), [lang]); // eslint-disable-line
+  const bioLines = useMemo(
+    () => t("about.bio", { returnObjects: true }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- refresh when locale changes
+    [i18n.language],
+  );
+  const statsLabels = useMemo(
+    () => t("about.stats", { returnObjects: true }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [i18n.language],
+  );
 
 
   return (
-    <section id="about" ref={ref} aria-label="À propos" style={{ position: "relative", zIndex: 10, padding: "var(--section-py) 24px" }}>
+    <section id="about" ref={ref} aria-label={t("about.title")} style={{ position: "relative", zIndex: 10, padding: "100px 24px" }}>
       <div className="container">
         {/* Section header */}
         <div className="term-cmd" style={{ marginBottom: "64px" }}>
@@ -88,7 +96,7 @@ export default function About() {
                   textTransform: "uppercase", transform: "rotate(-15deg)",
                   userSelect: "none",
                 }}>
-                  ✓ AUTORISÉ
+                  ✓ {t("about.badge_label")}
                 </div>
                 {/* Scan line effect */}
                 <div style={{
@@ -103,7 +111,7 @@ export default function About() {
             <div className="term-card" style={{ width: "100%", maxWidth: "260px", padding: "16px" }}>
               <div style={{ fontFamily: "var(--font-mono)", fontSize: "11px", lineHeight: "2" }}>
                 <div><span style={{ color: "var(--text-muted)" }}>ID:</span> <span style={{ color: "var(--primary)" }}>NA-SEC-001</span></div>
-                <div><span style={{ color: "var(--text-muted)" }}>LOC:</span> <span style={{ color: "var(--text)" }}>Casablanca, Maroc</span></div>
+                <div><span style={{ color: "var(--text-muted)" }}>LOC:</span> <span style={{ color: "var(--text)" }}>{tx(personal.location, lang)}</span></div>
                 <div><span style={{ color: "var(--text-muted)" }}>STATUS:</span> <span style={{ color: "var(--success)" }}>● ACTIVE</span></div>
                 <div><span style={{ color: "var(--text-muted)" }}>CLEARANCE:</span> <span style={{ color: "var(--secondary)" }}>LEVEL 5</span></div>
               </div>
@@ -134,7 +142,7 @@ export default function About() {
                     color: "var(--text-muted)", marginTop: "4px",
                     letterSpacing: "0.5px",
                   }}>
-                    {statsLabels[i] || stat.label}
+                    {statsLabels[i] || tx(stat.label, lang)}
                   </div>
                 </motion.div>
               ))}
@@ -168,7 +176,7 @@ export default function About() {
                 fontFamily: "var(--font-mono)", fontSize: "12px",
                 color: "var(--text-muted)", marginBottom: "16px",
               }}>
-                <span style={{ color: "var(--secondary)" }}>&gt;</span> interests --list
+                <span style={{ color: "var(--secondary)" }}>&gt;</span> {t("about.interests_cmd")}
               </div>
               <div style={{ display: "flex", flexWrap: "wrap", gap: "10px" }}>
                 {personal.interests?.map ? personal.interests.map((item, i) => (
@@ -179,7 +187,7 @@ export default function About() {
                     color: "var(--text)",
                     borderRadius: "3px",
                   }}>
-                    {item.icon} {item.label}
+                    {item.icon} {tx(item.label, lang)}
                   </div>
                 )) : null}
               </div>

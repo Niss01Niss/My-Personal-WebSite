@@ -1,6 +1,7 @@
 // src/components/Skills.jsx — System monitor / htop style
 import { useTranslation } from "react-i18next";
 import { skillCategories } from "../data/portfolio";
+import { resolveLang, skillKey, tx } from "../utils/l10n";
 import { useIntersectionObserver } from "../hooks/useIntersectionObserver";
 import { useTypewriter } from "../hooks/useTypewriter";
 
@@ -38,7 +39,7 @@ const CAT_PROCESS = {
   siem:       "SOC_PROC",
 };
 
-function SkillsPanel({ cats, isVisible, catNames }) {
+function SkillsPanel({ cats, isVisible, catNames, lang, t }) {
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "22px" }}>
       {cats.map((cat) => (
@@ -53,7 +54,7 @@ function SkillsPanel({ cats, isVisible, catNames }) {
         >
           <div style={{
             fontFamily: "var(--font-mono)",
-            fontSize: "12px",
+            fontSize: "11px",
             color: CAT_COLORS[cat.id] || "var(--primary)",
             letterSpacing: "2px",
             marginBottom: "14px",
@@ -66,16 +67,17 @@ function SkillsPanel({ cats, isVisible, catNames }) {
               ▶ {CAT_PROCESS[cat.id] || "PROC"} :: {catNames[cat.id] || cat.title}
             </span>
             <span style={{ color: "var(--text-muted)", whiteSpace: "nowrap" }}>
-              {cat.skills.length} tasks
+              {cat.skills.length} {t("skills.tasks_suffix")}
             </span>
           </div>
 
           {cat.skills.map((skill) => (
             <SkillBar
-              key={skill}
-              name={skill}
+              key={skillKey(skill)}
+              skill={skill}
               color={CAT_COLORS[cat.id] || "var(--primary)"}
               active={isVisible}
+              lang={lang}
             />
           ))}
         </div>
@@ -84,12 +86,13 @@ function SkillsPanel({ cats, isVisible, catNames }) {
   );
 }
 
-function SkillBar({ name, color, active }) {
-  const pct = SKILL_LEVELS[name] || 65;
+function SkillBar({ skill, color, active, lang }) {
+  const pct = SKILL_LEVELS[skillKey(skill)] || 65;
+  const label = tx(skill, lang);
 
   return (
     <div style={{
-      marginBottom: "12px",
+      marginBottom: "10px",
       opacity: active ? 1 : 0,
       transform: active ? "translateX(0)" : "translateX(-10px)",
       transition: "opacity 0.4s ease, transform 0.4s ease",
@@ -102,24 +105,24 @@ function SkillBar({ name, color, active }) {
         marginBottom: "6px",
       }}>
         <span style={{
-          color: "var(--text)",
+          color: "var(--text-muted)",
           fontFamily: "var(--font-mono)",
-          fontSize: "clamp(12px, 1.3vw, 14px)",
+          fontSize: "clamp(10px, 1.2vw, 13px)",
           overflow: "hidden",
           textOverflow: "ellipsis",
           whiteSpace: "nowrap",
           letterSpacing: "0.2px",
         }}>
-          {name}
+          {label}
         </span>
 
         <span style={{
           color,
           fontFamily: "var(--font-mono)",
-          fontSize: "12px",
-          minWidth: "42px",
+          fontSize: "11px",
+          minWidth: "36px",
           textAlign: "right",
-          fontWeight: 600,
+          fontWeight: 400,
         }}>
           {pct}%
         </span>
@@ -150,7 +153,8 @@ function SkillBar({ name, color, active }) {
 }
 
 export default function Skills() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const lang = resolveLang(i18n);
   const [ref, isVisible] = useIntersectionObserver(0.1);
   const cmdTyped = useTypewriter(t("skills.cmd"), 40, isVisible);
   const catNames = t("skills.categories", { returnObjects: true });
@@ -160,25 +164,25 @@ export default function Skills() {
   const right = skillCategories.slice(Math.ceil(skillCategories.length / 2));
 
   return (
-    <section id="skills" ref={ref} aria-label="Compétences" style={{ position: "relative", zIndex: 10, padding: "var(--section-py) 24px" }}>
+    <section id="skills" ref={ref} aria-label={t("skills.title")} style={{ position: "relative", zIndex: 10, padding: "100px 24px" }}>
       <div className="container">
         {/* Section header */}
-        <div className="term-cmd" style={{ marginBottom: "14px" }}>
+        <div className="term-cmd" style={{ marginBottom: "16px" }}>
           {cmdTyped}
         </div>
 
         {/* htop-style header */}
         <div style={{
-          fontFamily: "var(--font-mono)", fontSize: "12px",
-          color: "var(--text-muted)", marginBottom: "30px",
-          borderBottom: "1px solid rgba(14, 165, 233, 0.26)", paddingBottom: "12px",
+          fontFamily: "var(--font-mono)", fontSize: "11px",
+          color: "var(--text-dim)", marginBottom: "48px",
+          borderBottom: "1px solid var(--border)", paddingBottom: "12px",
           display: "flex", gap: "24px", flexWrap: "wrap",
         }}>
           <span>PID: 1337</span>
           <span>USER: nisrine</span>
           <span>MEM: 42.0%</span>
           <span>CPU: 99.9%</span>
-          <span style={{ color: "var(--primary)", fontWeight: 700 }}>STATUS: RUNNING</span>
+          <span style={{ color: "var(--primary)" }}>STATUS: RUNNING</span>
         </div>
 
         {/* Two-panel layout */}
@@ -189,8 +193,8 @@ export default function Skills() {
         }}
         className="skills-grid"
         >
-          <SkillsPanel cats={left} isVisible={isVisible} catNames={catNames} />
-          <SkillsPanel cats={right} isVisible={isVisible} catNames={catNames} />
+          <SkillsPanel cats={left} isVisible={isVisible} catNames={catNames} lang={lang} t={t} />
+          <SkillsPanel cats={right} isVisible={isVisible} catNames={catNames} lang={lang} t={t} />
         </div>
       </div>
 

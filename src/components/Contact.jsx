@@ -4,16 +4,20 @@ import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
 import { GitBranch, Link, Mail } from "lucide-react";
 import { personal } from "../data/portfolio";
+import { resolveLang, tx } from "../utils/l10n";
 import { useIntersectionObserver } from "../hooks/useIntersectionObserver";
 import { useTypewriter } from "../hooks/useTypewriter";
 
 export default function Contact() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const lang = resolveLang(i18n);
   const [ref, isVisible] = useIntersectionObserver(0.1);
   const cmdTyped = useTypewriter(t("contact.cmd"), 40, isVisible);
 
   const [form, setForm]     = useState({ name: "", email: "", message: "" });
   const [status, setStatus] = useState(null); // null | "sending" | "sent" | "error"
+  /** Set when status === "error" to show setup instructions instead of a generic failure. */
+  const [errorKind, setErrorKind] = useState(null);
 
   function handleChange(e) {
     setForm((f) => ({ ...f, [e.target.name]: e.target.value }));
@@ -21,16 +25,65 @@ export default function Contact() {
 
   async function handleSubmit(e) {
     e.preventDefault();
+    const web3Key = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY;
+    const formspreeId = import.meta.env.VITE_FORMSPREE_ID;
+
+    if (!web3Key && !formspreeId) {
+      setStatus("error");
+      setErrorKind("not_configured");
+      setTimeout(() => {
+        setStatus(null);
+        setErrorKind(null);
+      }, 12000);
+      return;
+    }
+
     setStatus("sending");
-    // Simulate sending
-    await new Promise((r) => setTimeout(r, 1200));
-    if (form.email.includes("@")) {
+    setErrorKind(null);
+
+    try {
+      if (web3Key) {
+        const res = await fetch("https://api.web3forms.com/submit", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", Accept: "application/json" },
+          body: JSON.stringify({
+            access_key: web3Key,
+            subject: `[Portfolio] ${form.name}`,
+            name: form.name,
+            email: form.email,
+            message: form.message,
+          }),
+        });
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok || data.success !== true) {
+          const msg = data.body?.message || data.message || "Web3Forms error";
+          throw new Error(msg);
+        }
+      } else {
+        const res = await fetch(`https://formspree.io/f/${formspreeId}`, {
+          method: "POST",
+          headers: { Accept: "application/json", "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name: form.name,
+            email: form.email,
+            message: form.message,
+            _subject: `[Portfolio] ${form.name}`,
+          }),
+        });
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok) throw new Error(data.error || "Form error");
+      }
       setStatus("sent");
       setForm({ name: "", email: "", message: "" });
-    } else {
+    } catch {
       setStatus("error");
+      setErrorKind(null);
     }
-    setTimeout(() => setStatus(null), 4000);
+
+    setTimeout(() => {
+      setStatus(null);
+      setErrorKind(null);
+    }, 6000);
   }
 
   const socialLinks = [
@@ -52,10 +105,10 @@ export default function Contact() {
       icon: <Mail size={14} />,
       color: "var(--danger)",
     },
-  ];
+  ].filter((s) => Boolean(s.href));
 
   return (
-    <section id="contact" ref={ref} aria-label="Contact" style={{ position: "relative", zIndex: 10, padding: "var(--section-py) 24px" }}>
+    <section id="contact" ref={ref} aria-label={t("contact.title")} style={{ position: "relative", zIndex: 10, padding: "100px 24px" }}>
       <div className="container">
         {/* Section header */}
         <div className="term-cmd" style={{ marginBottom: "32px" }}>
@@ -184,7 +237,7 @@ export default function Contact() {
                   fontFamily: "var(--font-mono)", fontSize: "13px",
                   color: "var(--danger)", marginBottom: "16px",
                 }}>
-                  ✗ {t("contact.error")}
+                  ✗ {t(errorKind === "not_configured" ? "contact.error_not_configured" : "contact.error")}
                 </div>
               )}
 
@@ -222,10 +275,10 @@ export default function Contact() {
               <div style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
                 {socialLinks.map((s, i) => (
                   <motion.a
-                    key={i}
+                    key={s.href || i}
                     href={s.href}
                     target={s.href.startsWith("mailto") ? undefined : "_blank"}
-                    rel="noopener noreferrer"
+                    rel={s.href.startsWith("http") ? "noopener noreferrer" : undefined}
                     className="term-card"
                     whileHover={{ x: 6, borderColor: s.color }}
                     style={{
@@ -267,7 +320,7 @@ export default function Contact() {
                 fontFamily: "var(--font-mono)", fontSize: "12px",
                 color: "var(--text-muted)", marginTop: "8px",
               }}>
-                {personal.location}
+                {tx(personal.location, lang)}
               </div>
             </div>
           </motion.div>

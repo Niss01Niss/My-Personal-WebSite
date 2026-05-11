@@ -1,14 +1,14 @@
 // src/components/Education.jsx — JSON output aesthetic
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
-import { education, certifications } from "../data/portfolio";
+import { education, certifications, languages as profileLanguages } from "../data/portfolio";
+import { resolveLang, tx } from "../utils/l10n";
 import { useIntersectionObserver } from "../hooks/useIntersectionObserver";
 import { useTypewriter } from "../hooks/useTypewriter";
 
-function JsonBlock({ data, delay, isVisible, t }) {
-  const statusKey = data.status === "En cours" || data.status === "IN PROGRESS"
-    ? "education.status_current"
-    : "education.status_done";
+function JsonBlock({ data, delay, isVisible, t, lang }) {
+  const isCurrent = data.ongoing === true;
+  const statusKey = isCurrent ? "education.status_current" : "education.status_done";
 
   return (
     <motion.div
@@ -33,28 +33,28 @@ function JsonBlock({ data, delay, isVisible, t }) {
         <div><span className="json-punc">{"{"}</span></div>
         <div style={{ paddingLeft: "20px" }}>
           <span className="json-key">"degree"</span><span className="json-punc">: </span>
-          <span className="json-str">"{data.degree}"</span><span className="json-punc">,</span>
+          <span className="json-str">"{tx(data.degree, lang)}"</span><span className="json-punc">,</span>
         </div>
         <div style={{ paddingLeft: "20px" }}>
           <span className="json-key">"field"</span><span className="json-punc">: </span>
-          <span className="json-str">"{data.field}"</span><span className="json-punc">,</span>
+          <span className="json-str">"{tx(data.field, lang)}"</span><span className="json-punc">,</span>
         </div>
         <div style={{ paddingLeft: "20px" }}>
           <span className="json-key">"institution"</span><span className="json-punc">: </span>
-          <span className="json-str">"{data.institution}"</span><span className="json-punc">,</span>
+          <span className="json-str">"{tx(data.institution, lang)}"</span><span className="json-punc">,</span>
         </div>
         <div style={{ paddingLeft: "20px" }}>
           <span className="json-key">"location"</span><span className="json-punc">: </span>
-          <span className="json-str">"{data.location}"</span><span className="json-punc">,</span>
+          <span className="json-str">"{tx(data.location, lang)}"</span><span className="json-punc">,</span>
         </div>
         <div style={{ paddingLeft: "20px" }}>
           <span className="json-key">"period"</span><span className="json-punc">: </span>
-          <span className="json-str">"{data.period}"</span><span className="json-punc">,</span>
+          <span className="json-str">"{tx(data.period, lang)}"</span><span className="json-punc">,</span>
         </div>
         <div style={{ paddingLeft: "20px" }}>
           <span className="json-key">"status"</span><span className="json-punc">: </span>
           <span style={{
-            color: data.status === "En cours" ? "var(--primary)" : "var(--secondary)",
+            color: isCurrent ? "var(--primary)" : "var(--secondary)",
           }}>
             "{t(statusKey)}"
           </span>
@@ -65,7 +65,7 @@ function JsonBlock({ data, delay, isVisible, t }) {
   );
 }
 
-function CertCard({ cert, index, isVisible }) {
+function CertCard({ cert, index, isVisible, lang }) {
   return (
     <motion.div
       className="term-card"
@@ -81,14 +81,14 @@ function CertCard({ cert, index, isVisible }) {
             fontFamily: "var(--font-mono)", fontSize: "clamp(11px, 1.3vw, 14px)",
             color: cert.color, fontWeight: "600", marginBottom: "4px",
           }}>
-            {cert.title}
+            {tx(cert.title, lang)}
           </div>
           <div style={{
             fontFamily: "var(--font-mono)", fontSize: "11px",
             color: "var(--text-muted)",
           }}>
             {cert.issuer}
-            {cert.note && <span style={{ color: "var(--text-dim)", marginLeft: "8px" }}>({cert.note})</span>}
+            {cert.note && <span style={{ color: "var(--text-dim)", marginLeft: "8px" }}>({tx(cert.note, lang)})</span>}
           </div>
         </div>
       </div>
@@ -97,12 +97,13 @@ function CertCard({ cert, index, isVisible }) {
 }
 
 export default function Education() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const lang = resolveLang(i18n);
   const [ref, isVisible] = useIntersectionObserver(0.1);
   const cmdTyped = useTypewriter(t("education.cmd"), 40, isVisible);
 
   return (
-    <section id="education" ref={ref} aria-label="Formation et certifications" style={{ position: "relative", zIndex: 10, padding: "var(--section-py) 24px" }}>
+    <section id="education" ref={ref} aria-label={t("education.title")} style={{ position: "relative", zIndex: 10, padding: "100px 24px" }}>
       <div className="container">
         {/* Section header */}
         <div className="term-cmd" style={{ marginBottom: "64px" }}>
@@ -117,10 +118,10 @@ export default function Education() {
               color: "var(--text-muted)", marginBottom: "24px",
               letterSpacing: "2px",
             }}>
-              // EDUCATION RECORDS
+              {t("education.records_heading")}
             </div>
             {education.map((edu, i) => (
-              <JsonBlock key={edu.id} data={edu} delay={i * 0.15} isVisible={isVisible} t={t} />
+              <JsonBlock key={edu.id} data={edu} delay={i * 0.15} isVisible={isVisible} t={t} lang={lang} />
             ))}
           </div>
 
@@ -135,7 +136,7 @@ export default function Education() {
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
               {certifications.map((cert, i) => (
-                <CertCard key={cert.id} cert={cert} index={i} isVisible={isVisible} />
+                <CertCard key={cert.id} cert={cert} index={i} isVisible={isVisible} lang={lang} />
               ))}
             </div>
 
@@ -146,15 +147,11 @@ export default function Education() {
                 color: "var(--text-muted)", marginBottom: "20px",
                 letterSpacing: "2px",
               }}>
-                // LANGUAGE PROFICIENCY
+                {t("education.language_heading")}
               </div>
-              {[
-                { name: "Arabe", level: "Native", pct: 100, color: "var(--primary)" },
-                { name: "Français", level: "B2", pct: 80, color: "var(--secondary)" },
-                { name: "Anglais", level: "B2", pct: 80, color: "var(--secondary)" },
-              ].map((lang, i) => (
+              {profileLanguages.map((row, i) => (
                 <motion.div
-                  key={lang.name}
+                  key={tx(row.name, lang)}
                   initial={{ opacity: 0, x: -10 }}
                   animate={isVisible ? { opacity: 1, x: 0 } : {}}
                   transition={{ delay: 0.3 + i * 0.1 }}
@@ -164,11 +161,11 @@ export default function Education() {
                     marginBottom: "12px",
                   }}
                 >
-                  <span style={{ color: "var(--text-muted)", minWidth: "80px" }}>{lang.name}</span>
-                  <span style={{ color: lang.color, fontSize: "11px" }}>
-                    {"█".repeat(Math.round(lang.pct / 10))}{"░".repeat(10 - Math.round(lang.pct / 10))}
+                  <span style={{ color: "var(--text-muted)", minWidth: "80px" }}>{tx(row.name, lang)}</span>
+                  <span style={{ color: row.percent >= 90 ? "var(--primary)" : "var(--secondary)", fontSize: "11px" }}>
+                    {"█".repeat(Math.round(row.percent / 10))}{"░".repeat(10 - Math.round(row.percent / 10))}
                   </span>
-                  <span style={{ color: "var(--text-muted)", fontSize: "11px" }}>{lang.level}</span>
+                  <span style={{ color: "var(--text-muted)", fontSize: "11px" }}>{tx(row.level, lang)}</span>
                 </motion.div>
               ))}
             </div>

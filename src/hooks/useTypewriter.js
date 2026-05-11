@@ -51,15 +51,17 @@ export function useCyclingTypewriter(texts = [], speed = 80, pause = 2200) {
   const textsRef  = useRef(texts);
   const stateRef  = useRef({ textIdx: 0, charIdx: 0, deleting: false });
 
-  // Keep textsRef current without causing re-renders
   useEffect(() => {
     textsRef.current = texts;
-  });
+    clearTimeout(timerRef.current);
+    stateRef.current = { textIdx: 0, charIdx: 0, deleting: false };
 
-  useEffect(() => {
+    if (!texts.length) return;
+
     function tick() {
       const { textIdx, charIdx, deleting } = stateRef.current;
       const arr     = textsRef.current;
+      if (!arr.length) return;
       const current = arr[textIdx] || "";
 
       if (!deleting && charIdx <= current.length) {
@@ -75,16 +77,21 @@ export function useCyclingTypewriter(texts = [], speed = 80, pause = 2200) {
         timerRef.current = setTimeout(tick, speed / 2);
       } else {
         stateRef.current.deleting = false;
-        stateRef.current.textIdx  = (textIdx + 1) % arr.length;
+        stateRef.current.textIdx  = (textIdx + 1) % Math.max(arr.length, 1);
         stateRef.current.charIdx  = 0;
         timerRef.current = setTimeout(tick, 0);
       }
     }
 
-    timerRef.current = setTimeout(tick, speed);
-    return () => clearTimeout(timerRef.current);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []); // Mount only
+    const startId = window.setTimeout(() => {
+      setDisplayed("");
+      timerRef.current = setTimeout(tick, speed);
+    }, 0);
+    return () => {
+      clearTimeout(startId);
+      clearTimeout(timerRef.current);
+    };
+  }, [texts, speed, pause]);
 
   return displayed;
 }

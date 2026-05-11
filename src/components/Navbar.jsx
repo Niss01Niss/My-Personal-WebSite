@@ -69,11 +69,11 @@ export default function Navbar() {
           top: 0, left: 0, right: 0,
           zIndex: 1000,
           height: "var(--navbar-h)",
-          background: scrolled ? "linear-gradient(90deg, rgba(1, 18, 34, 0.94), rgba(0, 52, 98, 0.90))" : "transparent",
+          background: scrolled ? "rgba(2, 8, 16, 0.92)" : "transparent",
           backdropFilter: scrolled ? "blur(20px)" : "none",
-          borderBottom: scrolled ? "1px solid #0ea5e9" : "none",
+          borderBottom: scrolled ? "1px solid var(--accent)" : "none",
           transition: "all 0.35s ease",
-          boxShadow: scrolled ? "0 0 20px rgba(14, 165, 233, 0.30)" : "none",
+          boxShadow: scrolled ? "0 0 18px var(--accent-glow)" : "none",
         }}
       >
         <div style={{
@@ -100,12 +100,12 @@ export default function Navbar() {
           >
             <div style={{
               width: "42px", height: "42px",
-              border: "1px solid #0ea5e9",
-              background: "linear-gradient(135deg, #0284c7, #0369a1)",
+              border: "1px solid var(--accent)",
+              background: "var(--accent)",
               display: "flex", alignItems: "center", justifyContent: "center",
               fontFamily: "var(--font-display)", fontWeight: "700",
               fontSize: "14px", color: "var(--text)",
-              boxShadow: "0 0 18px rgba(14, 165, 233, 0.35)",
+              boxShadow: "0 0 16px var(--accent-glow)",
               borderRadius: "3px",
             }}>
               NA

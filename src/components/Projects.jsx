@@ -3,10 +3,11 @@ import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
 import { ExternalLink, GitBranch } from "lucide-react";
 import { projects } from "../data/portfolio";
+import { resolveLang, tx } from "../utils/l10n";
 import { useIntersectionObserver } from "../hooks/useIntersectionObserver";
 import { useTypewriter } from "../hooks/useTypewriter";
 
-function ProjectCard({ project, index, t }) {
+function ProjectCard({ project, index, t, lang }) {
   const [ref, isVisible] = useIntersectionObserver(0.1);
   const isWide = project.featured && index % 3 === 0;
 
@@ -29,7 +30,7 @@ function ProjectCard({ project, index, t }) {
         <div className="term-dot yellow" />
         <div className="term-dot green" />
         <span className="term-titlebar-label" style={{ textAlign: "left" }}>
-          {project.icon} {project.name}
+          {project.icon} {tx(project.name, lang)}
         </span>
         {project.featured && (
           <span style={{
@@ -50,7 +51,7 @@ function ProjectCard({ project, index, t }) {
           fontFamily: "var(--font-mono)", fontSize: "10px",
           color: "var(--secondary)", letterSpacing: "2px",
         }}>
-          [{project.category}]
+          [{tx(project.category, lang)}]
         </div>
 
         {/* Description */}
@@ -60,7 +61,7 @@ function ProjectCard({ project, index, t }) {
           flex: 1,
         }}>
           <span style={{ color: "var(--primary)" }}>&gt; </span>
-          {project.description}
+          {tx(project.description, lang)}
         </div>
 
         {/* Long desc (for wide cards) */}
@@ -71,7 +72,7 @@ function ProjectCard({ project, index, t }) {
             paddingLeft: "12px",
             borderLeft: "2px solid var(--border)",
           }}>
-            {project.longDesc}
+            {tx(project.longDesc, lang)}
           </div>
         )}
 
@@ -106,7 +107,7 @@ function ProjectCard({ project, index, t }) {
               className="btn-terminal"
               whileHover={{ scale: 1.04 }}
               whileTap={{ scale: 0.97 }}
-              aria-label={`Code source de ${project.name}`}
+              aria-label={t("projects.aria_source", { name: tx(project.name, lang) })}
               style={{ fontSize: "11px", padding: "7px 14px" }}
             >
               <GitBranch size={13} />
@@ -121,7 +122,7 @@ function ProjectCard({ project, index, t }) {
               className="btn-terminal secondary"
               whileHover={{ scale: 1.04 }}
               whileTap={{ scale: 0.97 }}
-              aria-label={`Demo de ${project.name}`}
+              aria-label={t("projects.aria_demo", { name: tx(project.name, lang) })}
               style={{ fontSize: "11px", padding: "7px 14px" }}
             >
               <ExternalLink size={13} />
@@ -133,7 +134,7 @@ function ProjectCard({ project, index, t }) {
               fontFamily: "var(--font-mono)", fontSize: "11px",
               color: "var(--text-dim)", padding: "7px 0",
             }}>
-              [PRIVATE REPOSITORY]
+              {t("projects.private_repo")}
             </span>
           )}
         </div>
@@ -143,12 +144,13 @@ function ProjectCard({ project, index, t }) {
 }
 
 export default function Projects() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const lang = resolveLang(i18n);
   const [ref, isVisible] = useIntersectionObserver(0.1);
   const cmdTyped = useTypewriter(t("projects.cmd"), 40, isVisible);
 
   return (
-    <section id="projects" ref={ref} aria-label="Projets" style={{ position: "relative", zIndex: 10, padding: "var(--section-py) 24px" }}>
+    <section id="projects" ref={ref} aria-label={t("projects.title")} style={{ position: "relative", zIndex: 10, padding: "100px 24px" }}>
       <div className="container">
         {/* Section header */}
         <div className="term-cmd" style={{ marginBottom: "64px" }}>
@@ -161,13 +163,13 @@ export default function Projects() {
           color: "var(--text-dim)", marginBottom: "32px",
           paddingBottom: "8px", borderBottom: "1px solid var(--border)",
         }}>
-          total {projects.length} &nbsp;&nbsp; drwxr-xr-x nisrine staff &nbsp; ./projects/
+          {t("projects.dir_listing", { count: projects.length })}
         </div>
 
         {/* Masonry grid */}
         <div className="projects-grid">
           {projects.map((project, i) => (
-            <ProjectCard key={project.id} project={project} index={i} t={t} />
+            <ProjectCard key={project.id} project={project} index={i} t={t} lang={lang} />
           ))}
         </div>
       </div>

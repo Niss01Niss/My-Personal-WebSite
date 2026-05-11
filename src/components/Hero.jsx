@@ -3,6 +3,7 @@ import { useEffect, useState, useMemo, useRef } from "react";
 import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import { personal } from "../data/portfolio";
+import { resolveLang, tx } from "../utils/l10n";
 import { useCyclingTypewriter } from "../hooks/useTypewriter";
 
 function TerminalWidget({ t }) {
@@ -97,8 +98,13 @@ function TerminalWidget({ t }) {
 }
 
 export default function Hero() {
-  const { t } = useTranslation();
-  const typedRole = useCyclingTypewriter(personal.titles, 70, 2500);
+  const { t, i18n } = useTranslation();
+  const lang = resolveLang(i18n);
+  const roleTitles = useMemo(
+    () => personal.titles.map((item) => tx(item, lang)),
+    [lang],
+  );
+  const typedRole = useCyclingTypewriter(roleTitles, 70, 2500);
   const scrollToSection = (sectionId) => {
     const section = document.getElementById(sectionId);
     if (!section) return;
@@ -109,7 +115,7 @@ export default function Hero() {
   return (
     <section
       id="hero"
-      aria-label="Introduction"
+      aria-label={t("hero.section_aria")}
       style={{
         minHeight: "100vh",
         display: "flex",
@@ -213,7 +219,7 @@ export default function Hero() {
                 className="btn-terminal"
                 whileHover={{ scale: 1.04 }}
                 whileTap={{ scale: 0.97 }}
-                aria-label="Télécharger le CV"
+                aria-label={t("hero.aria_download_cv")}
                 style={{ fontSize: "clamp(12px, 1.5vw, 14px)" }}
               >
                 {t("hero.cta_cv")}
@@ -224,7 +230,7 @@ export default function Hero() {
                 className="btn-terminal secondary"
                 whileHover={{ scale: 1.04 }}
                 whileTap={{ scale: 0.97 }}
-                aria-label="Me contacter"
+                aria-label={t("hero.aria_contact")}
                 style={{ fontSize: "clamp(12px, 1.5vw, 14px)" }}
               >
                 {t("hero.cta_contact")}
@@ -253,7 +259,7 @@ export default function Hero() {
           <button
             type="button"
             onClick={() => scrollToSection("about")}
-            aria-label="Défiler vers le bas"
+            aria-label={t("hero.scroll_aria")}
             style={{
               color: "var(--text-muted)", textDecoration: "none",
               fontFamily: "var(--font-mono)", fontSize: "11px",
@@ -270,7 +276,7 @@ export default function Hero() {
             >
               ▼
             </motion.span>
-            SCROLL
+            {t("hero.scroll")}
           </button>
         </motion.div>
       </div>

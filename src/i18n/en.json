@@ -32,7 +32,12 @@
       "  LOCATION: Casablanca, Morocco"
     ],
     "cta_cv": "$ ./download_cv.sh",
-    "cta_contact": "$ ./contact.sh"
+    "cta_contact": "$ ./contact.sh",
+    "scroll": "SCROLL",
+    "scroll_aria": "Scroll to the next section",
+    "aria_download_cv": "Download CV",
+    "aria_contact": "Go to contact",
+    "section_aria": "Introduction"
   },
   "about": {
     "cmd": "> cat about.txt",
@@ -43,7 +48,8 @@
       "My experiences in SOC, secure development, and database administration have taught me to balance technical rigor with strategic vision.",
       "Passionate about technological challenges, I actively participate in CTFs and hackathons, and I aim to apply this expertise to IT Audit."
     ],
-    "stats": ["Pro Experiences", "Major Projects", "Technologies", "Certifications"]
+    "stats": ["Pro Experiences", "Major Projects", "Technologies", "Certifications"],
+    "interests_cmd": "interests --list"
   },
   "experience": {
     "cmd": "> tail -f experience.log",
@@ -64,7 +70,8 @@
       "devsecops": "DevSecOps",
       "cloud": "Cloud Security",
       "siem": "SIEM & SOC"
-    }
+    },
+    "tasks_suffix": "tasks"
   },
   "projects": {
     "cmd": "> ls -la ./projects/",
@@ -72,14 +79,20 @@
     "clone": "git clone",
     "demo": "live demo --open",
     "deps": "DEPS",
-    "featured": "FEATURED"
+    "featured": "FEATURED",
+    "private_repo": "[PRIVATE REPOSITORY]",
+    "dir_listing": "total {{count}}    drwxr-xr-x nisrine staff    ./projects/",
+    "aria_source": "Source code: {{name}}",
+    "aria_demo": "Demo: {{name}}"
   },
   "education": {
     "cmd": "> cat credentials.json",
     "title": "Education & Certifications",
     "status_current": "IN PROGRESS",
     "status_done": "COMPLETED",
-    "certifications": "Certifications"
+    "certifications": "Certifications",
+    "records_heading": "// EDUCATION RECORDS",
+    "language_heading": "// LANGUAGE PROFICIENCY"
   },
   "contact": {
     "cmd": "> ssh nisrine@contact --port 443",
@@ -92,8 +105,9 @@
     "name_placeholder": "Your name",
     "email_placeholder": "your@email.com",
     "msg_placeholder": "Your message...",
-    "success": "Message transmitted successfully ✓",
+    "success": "Message sent successfully ✓",
     "error": "Transmission error. Please retry.",
+    "error_not_configured": "Add VITE_WEB3FORMS_ACCESS_KEY (free at web3forms.com) or VITE_FORMSPREE_ID to portfolio/.env, then run npm run build. Add the same env var on your host (Netlify, Vercel, etc.).",
     "social_title": "Social Links",
     "github": "[github]",
     "linkedin": "[linkedin]",
@@ -105,6 +119,9 @@
     "uptime": "UPTIME"
   },
   "boot": {
+    "header_title": "NISRINE AMESJOUN // PORTFOLIO v2.0",
+    "header_rule": "─────────────────────────────────────────",
+    "skip_aria": "Skip intro animation",
     "lines": [
       "INITIALIZING SECURE CONNECTION...........",
       "LOADING PROFILE: NISRINE AMESJOUN........",

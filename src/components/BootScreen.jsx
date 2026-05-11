@@ -1,22 +1,23 @@
 // src/components/BootScreen.jsx
 // Fullscreen terminal boot animation shown once per session
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useTranslation } from "react-i18next";
 
-const BOOT_LINES = [
-  "INITIALIZING SECURE CONNECTION...........",
-  "LOADING PROFILE: NISRINE AMESJOUN........",
-  "DECRYPTING PORTFOLIO DATA................",
-  "FIREWALL STATUS: ACTIVE..................",
-  "ACCESS GRANTED ✓",
-];
-const OK_TAG = "[ OK ]";
-
-function isLastBootLine(idx) {
-  return idx === BOOT_LINES.length - 1;
+function isLastBootLine(idx, total) {
+  return total > 0 && idx === total - 1;
 }
 
 export default function BootScreen({ onComplete }) {
+  const { t, i18n } = useTranslation();
+  const bootLines = useMemo(
+    () => t("boot.lines", { returnObjects: true }),
+    // i18n.language drives bundle content; `t` identity can change every render
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [i18n.language],
+  );
+  const bootLen = bootLines.length;
+
   const [lines, setLines]       = useState([]); // { text, ok }
   const [typing, setTyping]     = useState("");
   const [lineIdx, setLineIdx]   = useState(0);
@@ -33,10 +34,25 @@ export default function BootScreen({ onComplete }) {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // Reset typing when language changes (boot not completed)
+  useEffect(() => {
+    if (sessionStorage.getItem("boot-shown")) return;
+    const id = window.setTimeout(() => {
+      setLines([]);
+      setTyping("");
+      setLineIdx(0);
+      setCharIdx(0);
+      setDone(false);
+    }, 0);
+    return () => window.clearTimeout(id);
+  }, [bootLines]);
+
   // Typewriter effect per line
   useEffect(() => {
     if (sessionStorage.getItem("boot-shown")) return;
-    if (lineIdx >= BOOT_LINES.length) {
+    if (!bootLen) return;
+
+    if (lineIdx >= bootLen) {
       const doneId = window.setTimeout(() => setDone(true), 0);
       const slideId = window.setTimeout(() => {
         setSliding(true);
@@ -51,16 +67,15 @@ export default function BootScreen({ onComplete }) {
       };
     }
 
-    const line = BOOT_LINES[lineIdx];
+    const line = bootLines[lineIdx] ?? "";
     if (charIdx <= line.length) {
       timerRef.current = setTimeout(() => {
         setTyping(line.slice(0, charIdx));
         setCharIdx((c) => c + 1);
       }, 28);
     } else {
-      // Line complete — show OK tag and move to next
       timerRef.current = setTimeout(() => {
-        const isLast = lineIdx === BOOT_LINES.length - 1;
+        const isLast = isLastBootLine(lineIdx, bootLen);
         setLines((prev) => [
           ...prev,
           { text: line, ok: !isLast, success: isLast },
@@ -68,12 +83,12 @@ export default function BootScreen({ onComplete }) {
         setTyping("");
         setCharIdx(0);
         setLineIdx((i) => i + 1);
-      }, isLastBootLine(lineIdx) ? 200 : 120);
+      }, isLastBootLine(lineIdx, bootLen) ? 200 : 120);
     }
 
     return () => clearTimeout(timerRef.current);
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [charIdx, lineIdx]);
+  }, [charIdx, lineIdx, bootLines, bootLen]);
 
   function handleSkip() {
     clearTimeout(timerRef.current);
@@ -106,17 +121,15 @@ export default function BootScreen({ onComplete }) {
             fontFamily: '"JetBrains Mono", monospace',
           }}
         >
-          {/* Header */}
           <div style={{ marginBottom: "40px" }}>
             <div style={{ color: "#00B4D8", fontSize: "11px", letterSpacing: "3px", marginBottom: "8px", opacity: 0.6 }}>
-              NISRINE AMESJOUN // PORTFOLIO v2.0
+              {t("boot.header_title")}
             </div>
             <div style={{ color: "#5C8A75", fontSize: "11px", letterSpacing: "2px" }}>
-              ─────────────────────────────────────────
+              {t("boot.header_rule")}
             </div>
           </div>
 
-          {/* Completed lines */}
           <div style={{ display: "flex", flexDirection: "column", gap: "10px", width: "100%", maxWidth: "700px" }}>
             {lines.map((l, i) => (
               <motion.div
@@ -136,14 +149,13 @@ export default function BootScreen({ onComplete }) {
                 </span>
                 {l.ok && (
                   <span style={{ color: "#2D6A4F", fontSize: "clamp(12px, 1.8vw, 15px)", whiteSpace: "nowrap" }}>
-                    {OK_TAG}
+                    {t("boot.ok")}
                   </span>
                 )}
               </motion.div>
             ))}
 
-            {/* Current typing line */}
-            {!done && lineIdx < BOOT_LINES.length && (
+            {!done && lineIdx < bootLen && (
               <div style={{ display: "flex", gap: "8px" }}>
                 <span style={{ color: "#CAF0F8", fontSize: "clamp(12px, 1.8vw, 15px)" }}>
                   {typing}
@@ -159,7 +171,6 @@ export default function BootScreen({ onComplete }) {
             )}
           </div>
 
-          {/* Skip button */}
           <button
             onClick={handleSkip}
             style={{
@@ -177,9 +188,9 @@ export default function BootScreen({ onComplete }) {
             }}
             onMouseEnter={(e) => { e.target.style.color = "#00B4D8"; e.target.style.borderColor = "#00B4D8"; }}
             onMouseLeave={(e) => { e.target.style.color = "#5C8A75"; e.target.style.borderColor = "rgba(0,150,199,0.35)"; }}
-            aria-label="Passer l'animation d'introduction"
+            aria-label={t("boot.skip_aria")}
           >
-            SKIP »
+            {t("boot.skip")}
           </button>
         </motion.div>
       )}
