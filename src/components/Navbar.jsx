@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import { personal } from "../data/portfolio";
+import { resolveLang, cvHref, cvDownloadFilename } from "../utils/l10n";
 
 const NAV_LINKS = [
   { key: "about",      sectionId: "about"      },
@@ -15,6 +16,9 @@ const NAV_LINKS = [
 
 export default function Navbar() {
   const { t, i18n } = useTranslation();
+  const uiLang = resolveLang(i18n);
+  const cvUrl = cvHref(personal, uiLang);
+  const cvFileName = cvDownloadFilename(personal, uiLang);
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [lang, setLang]         = useState(i18n.language === "en" ? "EN" : "FR");
@@ -156,12 +160,12 @@ export default function Navbar() {
 
             {/* Download CV */}
             <motion.a
-              href={personal.cvFile}
-              download
+              href={cvUrl}
+              download={cvFileName}
               className="btn-terminal"
               whileHover={{ scale: 1.04 }}
               whileTap={{ scale: 0.97 }}
-              aria-label="Télécharger le CV"
+              aria-label={uiLang === "fr" ? t("nav.aria_download_cv_fr") : t("nav.aria_download_cv_en")}
             >
               {t("nav.download")}
             </motion.a>
@@ -256,8 +260,8 @@ export default function Navbar() {
                 [ {lang === "FR" ? "FR" : "EN"} | {lang === "FR" ? "EN" : "FR"} ]
               </button>
               <a
-                href={personal.cvFile}
-                download
+                href={cvUrl}
+                download={cvFileName}
                 className="btn-terminal"
                 onClick={() => setMenuOpen(false)}
               >

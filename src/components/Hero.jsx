@@ -3,7 +3,7 @@ import { useEffect, useState, useMemo, useRef } from "react";
 import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import { personal } from "../data/portfolio";
-import { resolveLang, tx } from "../utils/l10n";
+import { resolveLang, tx, cvHref, cvDownloadFilename } from "../utils/l10n";
 import { useCyclingTypewriter } from "../hooks/useTypewriter";
 
 function TerminalWidget({ t }) {
@@ -100,6 +100,10 @@ function TerminalWidget({ t }) {
 export default function Hero() {
   const { t, i18n } = useTranslation();
   const lang = resolveLang(i18n);
+  const cvFrHref = cvHref(personal, "fr");
+  const cvEnHref = cvHref(personal, "en");
+  const cvFrName = cvDownloadFilename(personal, "fr");
+  const cvEnName = cvDownloadFilename(personal, "en");
   const roleTitles = useMemo(
     () => personal.titles.map((item) => tx(item, lang)),
     [lang],
@@ -211,23 +215,58 @@ export default function Hero() {
               }} />
             </div>
 
-            {/* CTAs */}
-            <div style={{ display: "flex", gap: "16px", flexWrap: "wrap" }}>
-              <motion.a
-                href={personal.cvFile}
-                download
-                className="btn-terminal"
-                whileHover={{ scale: 1.04 }}
-                whileTap={{ scale: 0.97 }}
-                aria-label={t("hero.aria_download_cv")}
-                style={{ fontSize: "clamp(12px, 1.5vw, 14px)" }}
+            {/* CTAs — quick CV (FR / EN) + contact */}
+            <div style={{ display: "flex", gap: "16px", flexWrap: "wrap", alignItems: "center" }}>
+              <div
+                role="group"
+                aria-label={t("hero.cv_pdf_group_aria")}
+                style={{ display: "flex", gap: "8px", alignItems: "center", flexWrap: "wrap" }}
               >
-                {t("hero.cta_cv")}
-              </motion.a>
+                <span style={{
+                  fontFamily: "var(--font-mono)", fontSize: "clamp(10px, 1.1vw, 12px)",
+                  color: "var(--text-muted)", letterSpacing: "0.5px",
+                  whiteSpace: "nowrap",
+                }}>
+                  {t("hero.cv_quick_prefix")}{" "}
+                  <span style={{ color: "var(--secondary)" }}>{t("hero.cv_quick_sep")}</span>
+                </span>
+                <motion.a
+                  href={cvFrHref}
+                  download={cvFrName}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  aria-label={t("hero.aria_download_cv_fr")}
+                  title={t("hero.aria_download_cv_fr")}
+                  className="btn-terminal"
+                  style={{
+                    fontSize: "clamp(11px, 1.2vw, 12px)",
+                    padding: "8px 12px",
+                    minWidth: "unset",
+                  }}
+                >
+                  {t("hero.cv_btn_fr")}
+                </motion.a>
+                <motion.a
+                  href={cvEnHref}
+                  download={cvEnName}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  aria-label={t("hero.aria_download_cv_en")}
+                  title={t("hero.aria_download_cv_en")}
+                  className="btn-terminal secondary"
+                  style={{
+                    fontSize: "clamp(11px, 1.2vw, 12px)",
+                    padding: "8px 12px",
+                    minWidth: "unset",
+                  }}
+                >
+                  {t("hero.cv_btn_en")}
+                </motion.a>
+              </div>
               <motion.button
                 type="button"
                 onClick={() => scrollToSection("contact")}
-                className="btn-terminal secondary"
+                className="btn-terminal"
                 whileHover={{ scale: 1.04 }}
                 whileTap={{ scale: 0.97 }}
                 aria-label={t("hero.aria_contact")}

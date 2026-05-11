@@ -40,7 +40,11 @@ export const personal = {
     { value: "15+", label: { fr: "Technologies", en: "Technologies" } },
     { value: "2", label: { fr: "Certifications CISCO", en: "CISCO certifications" } },
   ],
-  cvFile: "/CV_NISRINE_AMESJOUN.pdf",
+  /** PDFs in `public/cv/` — French when UI is FR, English when UI is EN. */
+  cvFiles: {
+    fr: "/cv/CV_Nisrine_Amesjoun_FR.pdf",
+    en: "/cv/CV_Nisrine_Amesjoun_EN.pdf",
+  },
   github: "https://github.com/Niss01Niss",
   linkedin: "https://www.linkedin.com/in/nisrine-amesjoun",
 };

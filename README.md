@@ -120,7 +120,7 @@ portfolio/
 Toutes les données du CV sont centralisées dans **`src/data/portfolio.js`**.  
 Pour mettre à jour le contenu, modifiez uniquement ce fichier.
 
-Pour remplacer le CV PDF : déposez votre fichier dans `public/` et mettez à jour `cvFile` dans `portfolio.js`.
+Pour les CV PDF : placez **deux fichiers** dans `public/cv/` — `CV_Nisrine_Amesjoun_FR.pdf` et `CV_Nisrine_Amesjoun_EN.pdf` (noms modifiables via `personal.cvFiles` dans `src/data/portfolio.js`). Le téléchargement suit la langue du site (FR / EN).
 
 ---
 

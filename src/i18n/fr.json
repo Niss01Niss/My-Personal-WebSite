@@ -7,6 +7,8 @@
     "education": "~/formation",
     "contact": "~/contact",
     "download": "$ ./télécharger_cv.sh",
+    "aria_download_cv_fr": "Télécharger le CV en français",
+    "aria_download_cv_en": "Télécharger le CV en anglais",
     "lang": "FR"
   },
   "hero": {
@@ -32,10 +34,17 @@
       "  LOCATION: Casablanca, Maroc"
     ],
     "cta_cv": "$ ./télécharger_cv.sh",
+    "cv_quick_prefix": "CV",
+    "cv_quick_sep": "—",
+    "cv_btn_fr": "Français (PDF)",
+    "cv_btn_en": "Anglais (PDF)",
+    "cv_pdf_group_aria": "Télécharger le CV : version française ou anglaise (fichier PDF)",
     "cta_contact": "$ ./contact.sh",
     "scroll": "SCROLL",
     "scroll_aria": "Faire défiler vers la section suivante",
     "aria_download_cv": "Télécharger le CV",
+    "aria_download_cv_fr": "Télécharger le CV en français",
+    "aria_download_cv_en": "Télécharger le CV en anglais",
     "aria_contact": "Aller au contact",
     "section_aria": "Introduction"
   },

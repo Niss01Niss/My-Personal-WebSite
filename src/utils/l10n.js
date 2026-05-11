@@ -15,6 +15,24 @@ export function tx(value, lang) {
   return String(value);
 }
 
+/** PDF URL for the CV matching the active UI language (`personal.cvFiles.fr` / `.en`). */
+export function cvHref(personal, lang) {
+  if (personal.cvFiles && typeof personal.cvFiles === "object") {
+    const path = personal.cvFiles[lang] ?? personal.cvFiles.fr ?? personal.cvFiles.en;
+    if (path) return path;
+  }
+  if (personal.cvFile) return personal.cvFile;
+  return "#";
+}
+
+/** Suggested filename for the `download` attribute (last segment of path, or override). */
+export function cvDownloadFilename(personal, lang) {
+  if (personal.cvDownloadNames?.[lang]) return personal.cvDownloadNames[lang];
+  const href = cvHref(personal, lang);
+  const base = href.split("?")[0].split("/").filter(Boolean).pop();
+  return base && base !== "#" ? base : "CV.pdf";
+}
+
 /** Canonical key for maps keyed by French label (e.g. skill levels). */
 export function skillKey(skill) {
   if (typeof skill === "string") return skill;
